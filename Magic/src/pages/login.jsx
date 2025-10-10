@@ -1,5 +1,6 @@
-export default function Index() {
-  return  <>
+
+export default function Login() {
+  return ( <>
             <div>
                 <h1>Connexion</h1>
                 <div>
@@ -9,4 +10,5 @@ export default function Index() {
                 </div>
             </div>
           </>
+  )
 }
