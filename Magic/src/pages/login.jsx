@@ -2,7 +2,7 @@
 export default function Login() {
   return ( <>
             <div>
-                <h1>Connexion</h1>
+                <h1>Oppa</h1>
                 <div>
                     <form>
                         
