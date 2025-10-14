@@ -1,32 +1,67 @@
 
 import background from "../assets/img/resto_background.png";
-import { useEffect} from "react"; 
+import { useEffect, useState} from "react"; 
+import Button from "../components/button"
 
 // https://upmostly.com/tutorials/react-background-image
 
-export default function Login() {
+export default function Login({}) {
 
-  //titleColor = "white"
+  const [addUserForm, setUserForm] = useState({
+    username : "",
+    pwd : "",
 
-  const verif_user = () => { // permet d'attendre avant d'être exécuté
+  }); 
+  const [userName, setUserName] = useState(null)
 
-    // useEffect(() => { // useEffect???
 
-    console.log("page loaded");
+  useEffect(() => {
 
     fetch("/api/Login.php")
     .then(response => response.json())
     .then(data => {
+      setUserName(data); 
+    })
+  }, []); 
 
-      var_dump(data);
-      var_dump(data["username"]);
-      var_dump(data["password"]);
+  const handleLoginProgram = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData()
+    formData.append("username", addUserForm.name); //$_POST["username"]
+    formData.append("password", addUserForm.pwd); //$_POST["password"]
+
+    fetch("http://localhost:8000/Login.php", {
+      method: "POST",
+      body : formData
+    })
+    .then(response => response.json())
+    .then(data => {
 
     })
 
+  }
+  //titleColor = "white"
+
+  // const verif_user = () => { // permet d'attendre avant d'être exécuté
+
+  //   // useEffect(() => { // useEffect???
+
+  //   console.log("page loaded");
+
+  //   fetch("/api/Login.php")
+  //   .then(response => response.json())
+  //   .then(data => {
+
+  //     var_dump(data);
+  //     var_dump(data["username"]);
+  //     var_dump(data["password"]);
+
+  //   })
+
 
   // }, []); 
-  }
+  
 
   return  <>
             <div style={{
@@ -50,7 +85,7 @@ export default function Login() {
                   color: "white",
                  
                 }}>
-                <form action="" method="post" type="submit">
+                <form action="" method="post" type="submit" onSubmit={e => handleLoginProgram(e)}>
                     <div style={{
                       margin : "2vw",
                       fontSize : "1.2vw",
@@ -62,17 +97,17 @@ export default function Login() {
                     <h1 style={{ color : "white", textAlign : "center"}}>Connexion</h1>
                     <div style={{margin : "2vw"}}>
                         Nom d'utilisateur : 
-                    <input type="text" name="username" id="username" style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
+                    <input type="text" name="username" id="username" value={addUserForm.username} onChange={(e) => setUserForm({...addUserForm, username : e.target.value})} style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
                     </div>
                     <div style={{margin : "2vw"}}>
                         Mot de passe : 
-                    <input type="password" name="pwd" id="password" style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
+                    <input type="password" name="pwd" id="password" value={addUserForm.pwd} onChange={(e) => setUserForm({...addUserForm, pwd : e.target.value})} style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
                     <div style={{ 
                       display : "flex", 
                       justifyContent : "center", 
                       margin : "2vw",
                     }}>
-                      <button onClick={verif_user}>Envoyer</button>
+                      <Button type="submit">Envoyer</Button>
                     </div>
                     </div>
                   </div>
@@ -81,4 +116,5 @@ export default function Login() {
               </div>
             </div>
           </>
+
 }
