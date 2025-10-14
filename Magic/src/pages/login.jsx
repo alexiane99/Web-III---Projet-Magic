@@ -5,6 +5,8 @@ import Button from "../components/button"
 
 // https://upmostly.com/tutorials/react-background-image
 
+// vérifier la connection??  https://magix.apps-de-cours.com/server/users 
+
 export default function Login({}) {
 
   const [addUserForm, setUserForm] = useState({
@@ -12,17 +14,17 @@ export default function Login({}) {
     pwd : "",
 
   }); 
-  const [userName, setUserName] = useState(null)
+  // const [userName, setUserName] = useState(null)
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    fetch("/api/Login.php")
-    .then(response => response.json())
-    .then(data => {
-      setUserName(data); 
-    })
-  }, []); 
+  //   fetch("/api/Login.php")
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     setUserName(data); 
+  //   })
+  // }, []); 
 
   const handleLoginProgram = (e) => {
     e.preventDefault();
@@ -38,6 +40,7 @@ export default function Login({}) {
     .then(response => response.json())
     .then(data => {
 
+      alert(data); 
     })
 
   }

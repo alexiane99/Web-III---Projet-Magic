@@ -1,6 +1,7 @@
 <?php
-
+    
     require_once("action/CommonAction.php");
+
 
     class LoginAction extends CommonAction {
 
@@ -10,10 +11,11 @@
 
         protected function executeAction() {
 
+            $result = [];
             $invalide = false;
 
             if(isset($_POST["username"]) && isset($_POST["pwd"])) {
-
+               
                 $data = [];
                 $data["username"] = $_POST["username"];
                 $data["password"] = $_POST["pwd"];
@@ -36,7 +38,7 @@
 
             }
 
-            return compact("result");
+            return compact("result", "invalide");
  
         }
     }
