@@ -1,6 +1,17 @@
+
+import background from "../assets/img/resto_background.png"; 
+// https://upmostly.com/tutorials/react-background-image
+
 export default function Index() {
   return  <>
-            <div>
+            <div style={ {
+              backgroundImage : `URL(${background})`, 
+              backgroundRepeat: "no-repeat" , 
+              backgroundSize : "cover", 
+              height: "100vh",
+              backgroundPosition: "bottom-center", 
+              overflow: "hidden"
+            }}> 
                 <h1>Oka</h1>
                 <div className="blue">
                     <form>
