@@ -17,15 +17,17 @@
             if(isset($_POST["username"]) && isset($_POST["pwd"])) {
                
                 $data = [];
+
                 $data["username"] = $_POST["username"];
-                $data["password"] = $_POST["pwd"];
+                $data["pwd"] = $_POST["pwd"];
 
                 $result = parent::callAPI("signin", $data);
-                var_dump($result);
+               
 
                 if ($result == "INVALID_USERNAME_PASSWORD") {
 
                     $invalide = True;
+                    
                 }
 
                 else {

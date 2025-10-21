@@ -30,17 +30,25 @@ export default function Login({}) {
     e.preventDefault();
 
     let formData = new FormData()
-    formData.append("username", addUserForm.name); //$_POST["username"]
-    formData.append("password", addUserForm.pwd); //$_POST["password"]
+    formData.append("username", addUserForm.username); //$_POST["username"]
+    formData.append("pwd", addUserForm.pwd); //$_POST["password"]
 
-    fetch("http://localhost:8000/Login.php", {
+    fetch("/api/Login.php", { //"/api/Login.php"
       method: "POST",
       body : formData
     })
-    .then(response => response.json())
+    .then(response => 
+      //console.log(response), 
+
+      response.json() 
+    )
+
     .then(data => {
 
-      alert(data); 
+      console.log(data)
+
+      //window.location.href = "https://magix.apps-de-cours.com/server/users"
+
     })
 
   }
@@ -88,7 +96,7 @@ export default function Login({}) {
                   color: "white",
                  
                 }}>
-                <form action="" method="post" type="submit" onSubmit={e => handleLoginProgram(e)}>
+                <form action="login.jsx" method="post" type="submit" onSubmit={e => handleLoginProgram(e)}>
                     <div style={{
                       margin : "2vw",
                       fontSize : "1.2vw",
@@ -104,7 +112,7 @@ export default function Login({}) {
                     </div>
                     <div style={{margin : "2vw"}}>
                         Mot de passe : 
-                    <input type="password" name="pwd" id="password" value={addUserForm.pwd} onChange={(e) => setUserForm({...addUserForm, pwd : e.target.value})} style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
+                    <input type="password" name="pwd" id="pwd" value={addUserForm.pwd} onChange={(e) => setUserForm({...addUserForm, pwd : e.target.value})} style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
                     <div style={{ 
                       display : "flex", 
                       justifyContent : "center", 
