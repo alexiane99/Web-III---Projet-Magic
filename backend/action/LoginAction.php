@@ -14,14 +14,18 @@
             $result = [];
             $invalide = false;
 
-            if(isset($_POST["username"]) && isset($_POST["pwd"])) {
+            var_dump($_POST);
+
+            if(isset($_POST["username"]) && isset($_POST["password"])) {
                
                 $data = [];
 
                 $data["username"] = $_POST["username"];
-                $data["pwd"] = $_POST["pwd"];
+                $data["password"] = $_POST["password"];
 
                 $result = parent::callAPI("signin", $data);
+
+                // my key : 2Lff0pJOvsitrzPG4q3cUE2lwur4M70nPK0yZDHgG5BFLR4UNt
                
 
                 if ($result == "INVALID_USERNAME_PASSWORD") {

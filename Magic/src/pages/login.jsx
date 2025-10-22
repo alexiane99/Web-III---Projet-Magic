@@ -11,7 +11,7 @@ export default function Login({}) {
 
   const [addUserForm, setUserForm] = useState({
     username : "",
-    pwd : "",
+    password : "",
 
   }); 
   // const [userName, setUserName] = useState(null)
@@ -31,7 +31,7 @@ export default function Login({}) {
 
     let formData = new FormData()
     formData.append("username", addUserForm.username); //$_POST["username"]
-    formData.append("pwd", addUserForm.pwd); //$_POST["password"]
+    formData.append("password", addUserForm.password); //$_POST["password"]
 
     fetch("/api/Login.php", { //"/api/Login.php"
       method: "POST",
@@ -47,33 +47,12 @@ export default function Login({}) {
 
       console.log(data)
 
-      //window.location.href = "https://magix.apps-de-cours.com/server/users"
+      window.location.href = "lobby.jsx" //"https://magix.apps-de-cours.com/server/users"
 
     })
 
   }
-  //titleColor = "white"
-
-  // const verif_user = () => { // permet d'attendre avant d'être exécuté
-
-  //   // useEffect(() => { // useEffect???
-
-  //   console.log("page loaded");
-
-  //   fetch("/api/Login.php")
-  //   .then(response => response.json())
-  //   .then(data => {
-
-  //     var_dump(data);
-  //     var_dump(data["username"]);
-  //     var_dump(data["password"]);
-
-  //   })
-
-
-  // }, []); 
-  
-
+ 
   return  <>
             <div style={{
                 backgroundImage : `URL(${background})`, 
@@ -112,7 +91,7 @@ export default function Login({}) {
                     </div>
                     <div style={{margin : "2vw"}}>
                         Mot de passe : 
-                    <input type="password" name="pwd" id="pwd" value={addUserForm.pwd} onChange={(e) => setUserForm({...addUserForm, pwd : e.target.value})} style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
+                    <input type="password" name="password" id="password" value={addUserForm.password} onChange={(e) => setUserForm({...addUserForm, password : e.target.value})} style={{marginInlineStart : "1vw", marginInlineEnd: "0vw"}}></input>
                     <div style={{ 
                       display : "flex", 
                       justifyContent : "center", 
