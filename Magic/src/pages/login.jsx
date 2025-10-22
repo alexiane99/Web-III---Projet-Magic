@@ -45,7 +45,6 @@ export default function Login({}) {
 
       response.json() 
     )
-
     .then(data => {
 
       console.log(data)
