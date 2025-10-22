@@ -2,6 +2,7 @@
     
     require_once("action/CommonAction.php");
 
+    session_start();
 
     class LoginAction extends CommonAction {
 
@@ -38,6 +39,8 @@
                 // Pour voir les informations retournées : var_dump($result);exit;
 
                     $key = $result->key;
+
+                    $_SESSION["key"] = $key;
 
                 }
 

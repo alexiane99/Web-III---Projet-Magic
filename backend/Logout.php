@@ -1,8 +1,8 @@
 <?php 
 
-    require_once("action/LoginAction.php"); 
+    require_once("action/LogoutAction.php"); 
 
-    $action = new LoginAction();
+    $action = new LogoutAction();
     $data = $action->execute(); 
 
     echo json_encode($data["result"]);

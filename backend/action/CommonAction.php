@@ -14,10 +14,10 @@
         }
 
         public function execute() {            
-            if (!empty($_GET["logout"])) {
-                session_destroy();
-                session_start();
-            }
+            // if (!empty($_GET["logout"])) {
+            //     session_destroy();
+            //     session_start();
+            // }
 
 			if (empty($_SESSION["visibility"])) { # s'il n'y a pas d'information de visibilité, on le met public par défaut 
                 $_SESSION["visibility"] = self::$VISIBILITY_PUBLIC;

@@ -9,6 +9,9 @@ import Button from "../components/button"
 
 export default function Login({}) {
 
+  // useState -> Gérer données dynamiques : permet de déclarer une variable réactive/dynamique (si sa valeur change, on l'update directement) *RE_RENDER
+  // useEffect -> Gérer side effects (changements)/ xécuter du code après le rendu (ex: appel API, manipulation DOM, timer, changement d'état)
+  // useRef -> Conserver valeur/accès élément du DOM : pas de re-render, 
   const [addUserForm, setUserForm] = useState({
     username : "",
     password : "",
@@ -27,13 +30,13 @@ export default function Login({}) {
   // }, []); 
 
   const handleLoginProgram = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // empêche le rechargement automatique
 
     let formData = new FormData()
     formData.append("username", addUserForm.username); //$_POST["username"]
     formData.append("password", addUserForm.password); //$_POST["password"]
 
-    fetch("/api/Login.php", { //"/api/Login.php"
+    fetch("/api/Login.php", {
       method: "POST",
       body : formData
     })
