@@ -47,7 +47,7 @@ export default function Login({}) {
 
       console.log(data)
 
-      window.location.href = "lobby.jsx" //"https://magix.apps-de-cours.com/server/users"
+      window.location.href = "/lobby" //"https://magix.apps-de-cours.com/server/users"
 
     })
 

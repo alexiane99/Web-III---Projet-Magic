@@ -14,7 +14,6 @@
             $result = [];
             $invalide = false;
 
-            var_dump($_POST);
 
             if(isset($_POST["username"]) && isset($_POST["password"])) {
                
