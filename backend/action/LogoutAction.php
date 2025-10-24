@@ -34,8 +34,6 @@
 
                     }
 
-                    $key = $result->key; // reprise du loginAction
-
                     if($result == "SIGNED_OUT") {
 
                         session_unset(); // source : https://fr.eitca.org/web-development/eitc-wd-pmsf-php-and-mysql-fundamentals/expertise-in-php/sessions/examination-review-sessions/how-can-we-delete-a-session-variable-in-php/

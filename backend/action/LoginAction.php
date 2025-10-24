@@ -40,7 +40,7 @@
 
                     $key = $result->key;
 
-                    $_SESSION["key"] = $key;
+                    $_SESSION["key"] = $key; // on store ici la clé dans une variable de session 
 
                 }
 
