@@ -10,13 +10,20 @@ import Button from "../components/button"
 export default function Login({}) {
 
   // useState -> Gérer données dynamiques : permet de déclarer une variable réactive/dynamique (si sa valeur change, on l'update directement) *RE_RENDER
-  // useEffect -> Gérer side effects (changements)/ xécuter du code après le rendu (ex: appel API, manipulation DOM, timer, changement d'état)
+  // useEffect -> Gérer side effects (changements)/ exécuter du code après le rendu (ex: appel API, manipulation DOM, timer, changement d'état)
   // useRef -> Conserver valeur/accès élément du DOM : pas de re-render, 
   const [addUserForm, setUserForm] = useState({
     username : "",
     password : "",
 
   }); 
+
+  const [addkey, setkey] = useState({
+    
+    key:""
+
+  }); 
+
   // const [userName, setUserName] = useState(null)
 
 
@@ -49,11 +56,31 @@ export default function Login({}) {
 
       console.log(data)
 
+      saveKey()
+
       window.location.href = "/lobby" //"https://magix.apps-de-cours.com/server/users"
 
     })
 
+    const saveKey = () => {
+
+      fetch("/api/Key.php", {
+        method: "POST"
+      })
+      .then(response => response.json())
+      .then(key => {
+
+        console.log(key)
+
+        setkey(key)
+
+      })
+     
+    }
+
   }
+
+
  
   return  <>
             <div style={{

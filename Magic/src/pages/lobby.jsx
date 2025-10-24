@@ -83,6 +83,7 @@ return  <>
         <div style={{ justifyContent: "space-between"}}>
             <Button>Play Game</Button>
             <Button onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
+            
         </div>
         
     </div>
@@ -96,8 +97,8 @@ return  <>
 
     }}>
                 
-    <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles()} src="https://magix.apps-de-cours.com/server/chat/2Lff0pJOvsitrzPG4q3cUE2lwur4M70nPK0yZDHgG5BFLR4UNt"> 
-    </iframe>
+                
+    <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles()} src="https://magix.apps-de-cours.com/server/chat/" ></iframe>
     </div>
    
     </div>
