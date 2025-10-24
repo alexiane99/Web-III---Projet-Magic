@@ -6,6 +6,9 @@ export default function Lobby({}) {
 
 const chatRef = useRef(null); 
 
+    let key = localStorage.getItem("key")
+    console.log(key)
+
     const applyStyles = () => {
 
         let styles = {
@@ -50,6 +53,14 @@ const chatRef = useRef(null);
         })
 
     }; 
+
+    // function getKey() {
+
+    //     let key = JSON.stringify(localStorage.getItem("key")); // renvoie un objet Storage { key : "XYZ"} , il faut convertir en String
+    //     console.log(key);
+    //     return key; 
+
+    // }
 
 
 
@@ -96,9 +107,10 @@ return  <>
     
 
     }}>
-                
-                
-    <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles()} src="https://magix.apps-de-cours.com/server/chat/" ></iframe>
+
+    {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
+    {/* pour utilise ${ } dans une string, on utilise ` `         */}
+    <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles()} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
     </div>
    
     </div>

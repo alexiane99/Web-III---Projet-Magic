@@ -18,7 +18,7 @@ export default function Login({}) {
 
   }); 
 
-  const [addkey, setkey] = useState({
+  const [key, setkey] = useState({
     
     key:""
 
@@ -58,26 +58,30 @@ export default function Login({}) {
 
       saveKey()
 
-      window.location.href = "/lobby" //"https://magix.apps-de-cours.com/server/users"
-
     })
 
-    const saveKey = () => {
+  }
 
-      fetch("/api/Key.php", {
-        method: "POST"
-      })
+  const saveKey = () => {
+
+      console.log("ici");
+
+      fetch("/api/Key.php", {})
       .then(response => response.json())
       .then(key => {
 
+        setkey(key)
+        
         console.log(key)
 
-        setkey(key)
+        localStorage.setItem("key", key) // sauvegarde dans une variable de session
+
+        if(key != null) {
+
+          window.location.href = "/lobby" //"https://magix.apps-de-cours.com/server/users"
+        }
 
       })
-     
-    }
-
   }
 
 

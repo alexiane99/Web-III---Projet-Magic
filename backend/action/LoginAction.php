@@ -2,8 +2,6 @@
     
     require_once("action/CommonAction.php");
 
-    session_start();
-
     class LoginAction extends CommonAction {
 
         public function __construct() {
