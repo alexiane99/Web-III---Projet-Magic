@@ -1,5 +1,5 @@
 import background from "../assets/img/rooftop_bar.jpg";
-import {useRef, useEffect} from "react" 
+import {useRef, useEffect, useState} from "react" 
 import Button from "../components/button"
 
 export default function Lobby({}) {
@@ -8,6 +8,11 @@ const chatRef = useRef(null);
 
     let key = localStorage.getItem("key")
     console.log(key)
+
+    const [addGameMode, setGameMode] = useState ({
+        mode : ""
+
+    })
 
     const applyStyles = () => {
 
@@ -35,7 +40,7 @@ const chatRef = useRef(null);
         }, 100);
     }
 
-    useEffect(() => { })
+    useEffect(() => { }) // useEffect pour vérifier si connecté, sinon redirigé vers index
 
     const handleLogoutProgram = (e) => {
         e.preventDefault(); 
@@ -53,6 +58,28 @@ const chatRef = useRef(null);
         })
 
     }; 
+
+    const setGame = (e) => {
+        e.preventDefault
+
+        window.location.href = "/deck"
+    }
+
+    const setGameplayMode = (e) => {
+        e.preventDefault 
+
+        let formData = new FormData() 
+        formData.append("mode", addGameMode.mode)
+        
+        fetch("/api/GameMode.php", {
+            method: "POST",
+        })
+        .then(response => response.json)
+        .then(data => { console.log(data) })
+    } 
+
+
+
 
     // function getKey() {
 
@@ -87,12 +114,14 @@ return  <>
         backgroundColor: "black", 
         color: "white",
         fontFamily : "BBH Sans Bartle",
-        fontSize: "2vw",
+        fontSize: "1vw",
         height: "15vh"
     }}>
         <h2 style={{padding: "1.5vw", textAlign: "center"}}>Ready?</h2>
         <div style={{ justifyContent: "space-between"}}>
-            <Button>Play Game</Button>
+            <Button value={addGameMode.mode="PVP"}>Play Game</Button>
+            <Button onClick={e=> setGame(e)}>Deck</Button>
+            <Button value={addGameMode.mode="TRAINING"} onClick={e => setGameplayMode(e)}>Practice</Button>
             <Button onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
             
         </div>
@@ -113,6 +142,7 @@ return  <>
     <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles()} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
     </div>
    
+    
     </div>
     </>
 }
