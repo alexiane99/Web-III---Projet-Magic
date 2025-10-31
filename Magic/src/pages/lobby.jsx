@@ -9,9 +9,8 @@ const chatRef = useRef(null);
     let key = localStorage.getItem("key")
     console.log(key)
 
-    const [addGameMode, setGameMode] = useState ({
+    const [gameMode, setGameMode] = useState ({
         mode : ""
-
     })
 
     const applyStyles = () => {
@@ -19,12 +18,12 @@ const chatRef = useRef(null);
         let styles = {
 
             fontColor : "#333",
-            backgroundColor : "rgba(87, 41, 5, 0.2)",
+            backgroundColor : "white",
             fontGoogleName : "Sofia",
             fontSize : "20px",
             hideIcons : false, // (or true),
-            inputBackgroundColor : "red",
-            inputFontColor : "blue",
+            inputBackgroundColor : "rgba(137,146,147,1) 0%",
+            inputFontColor : "black",
             height : "690px",
             padding: "5px",
             memberListFontColor : "#ff00dd",
@@ -59,23 +58,32 @@ const chatRef = useRef(null);
 
     }; 
 
-    const setGame = (e) => {
+    const setDeck = (e) => {
         e.preventDefault
 
         window.location.href = "/deck"
     }
 
-    const setGameplayMode = (e) => {
-        e.preventDefault 
+    const setGameplayMode = (mode) => {
+
+        setGameMode(mode)
+
+        console.log(gameMode.mode)
 
         let formData = new FormData() 
-        formData.append("mode", addGameMode.mode)
+        formData.append("mode", mode)
         
         fetch("/api/GameMode.php", {
             method: "POST",
+            body: formData
         })
-        .then(response => response.json)
-        .then(data => { console.log(data) })
+        .then(response => response.json())
+        .then(data => { 
+
+            console.log(data) 
+
+            //window.location.href = "/game"
+        })
     } 
 
 
@@ -95,12 +103,17 @@ const chatRef = useRef(null);
 return  <>
 
     <div style={{
+
                 backgroundImage : `URL(${background})`, 
                 backgroundRepeat: "no-repeat" , 
                 backgroundSize : "cover", 
                 height: "100vh",
                 backgroundPosition: "bottom-center", 
                 overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              
+              
                 
     }}> 
 
@@ -110,39 +123,42 @@ return  <>
         padding: "2.5vw",
         display: "flex", 
         justifyContent: "space-around",
-        flexDirection: "row",
+        flexDirection: "column",
         backgroundColor: "black", 
         color: "white",
         fontFamily : "BBH Sans Bartle",
-        fontSize: "1vw",
-        height: "15vh"
+        fontSize: "2vw",
+        height: "25vh"
     }}>
-        <h2 style={{padding: "1.5vw", textAlign: "center"}}>Ready?</h2>
         <div style={{ justifyContent: "space-between"}}>
-            <Button value={addGameMode.mode="PVP"}>Play Game</Button>
-            <Button onClick={e=> setGame(e)}>Deck</Button>
-            <Button value={addGameMode.mode="TRAINING"} onClick={e => setGameplayMode(e)}>Practice</Button>
-            <Button onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
-            
+        <h2 style={{padding: "1.5vw", textAlign: "center"}}>Ready?</h2>
+        <Button onClick={() => setGameplayMode("PVP")}>Play Game</Button>
+        <Button onClick={e=> setDeck(e)}>Deck</Button>
+        <Button onClick={() => setGameplayMode("TRAINING")}>Practice</Button>
+        <Button onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
         </div>
+
+        <div style={{
+
+            display: "flex", 
+            justifyContent: "center", 
+            alignContent: "end",
+         
         
-    </div>
 
-    <div style={{
+        }}>
 
-        display: "flex", 
-        justifyContent: "end", 
-        alignContent: "flex-end",
-    
-
-    }}>
-
-    {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
-    {/* pour utilise ${ } dans une string, on utilise ` `         */}
-    <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles()} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
-    </div>
+        {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
+        {/* pour utilise ${ } dans une string, on utilise ` `         */}
+        <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
+        
+        </div>
    
     
     </div>
+        
+    </div>
+
+  
     </>
 }

@@ -1,6 +1,6 @@
 <?php  
 
-    require_once("action/GameAction.php"); 
+    require_once("action/GameModeAction.php"); 
 
     $action = new GameModeAction();
     $data = $action->execute(); 
