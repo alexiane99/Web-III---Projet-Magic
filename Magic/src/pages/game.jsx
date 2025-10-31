@@ -2,43 +2,56 @@ import Carte from "../components/carte";
 import {useEffect, useState} from "react"; 
 
 export default function Game({}) {
-    return <>
 
-    <div style={{
+    const [cards, setCards] = useState([])
 
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
+    useEffect(() => {
 
-    }}> 
+        fetch("/api/Cards.php", {
+            method:"POST"
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data)
+            setCards(data)
+        })
+    }, [])
+
+    return (
+        <>
+
         <div style={{
 
-            display:"flex", 
-            flexDirection: "row", 
+            display: "flex",
+            flexDirection: "column",
             justifyContent: "center"
 
-        }}>
-            <Carte><h1>Cocona</h1></Carte>
-            <Carte><h1>Cocona</h1></Carte>
-            <Carte><h1>Cocona</h1></Carte>
-            <Carte><h1>Cocona</h1></Carte>
-            
-        </div>
+        }}> 
             <div style={{
 
-            display:"flex", 
-            flexDirection: "row", 
-            justifyContent: "center"
+                display:"flex", 
+                flexDirection: "row", 
+                justifyContent: "center"
 
-        }}>
-            <Carte><h1>Cocona</h1></Carte>
-            <Carte><h1>Cocona</h1></Carte>
-            <Carte><h1>Cocona</h1></Carte>
-            <Carte><h1>Cocona</h1></Carte>
-            
+            }}>
+            { 
+                cards?.map(card => {
+
+                    return (
+
+                        <Carte key={card.id}>
+                            <p>{card.id}</p>
+                            <p>{card.cost}</p>
+                            <p>{card.mechanics}</p>
+                        </Carte>
+
+                    )
+                })
+            }
+            </div>
         </div>
-    </div>
     
     </>
-
+    )
 }

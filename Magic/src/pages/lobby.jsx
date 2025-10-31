@@ -47,7 +47,7 @@ const chatRef = useRef(null);
         fetch("/api/logout.php", {
             method: "POST"
         })
-        .then(response => response.json) // response.text
+        .then(response => response.json()) // response.text
         .then(data => { // txt
 
             console.log(data)

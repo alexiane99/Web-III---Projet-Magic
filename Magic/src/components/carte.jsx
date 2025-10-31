@@ -1,6 +1,6 @@
 import background from "../assets/img/Cocona.jpg"
 
-export default function Carte({}) {
+export default function Carte({children}) {
 
     return <div style={{
 
@@ -14,7 +14,6 @@ export default function Carte({}) {
         width: "300px",
         
     }}>
-        
-
+    {children}
     </div>
 }
