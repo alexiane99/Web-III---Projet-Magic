@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import './css/global.css'
 import Login from './pages/login'
 import Lobby from './pages/lobby'
-import Game from './pages/game'
+import Cards from './pages/cards'
 import Deck from './pages/deck'
 
 createRoot(document.getElementById('root')).render(
@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/" element={<Login />} />
             <Route path="/lobby" element={<Lobby />} />
             <Route path="/deck" element={<Deck />} />
-            <Route path="/game" element={<Game />} />
+            <Route path="/cards" element={<Cards />} />
             
         </Routes>
     </BrowserRouter>

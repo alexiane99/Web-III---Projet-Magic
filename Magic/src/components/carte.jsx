@@ -6,6 +6,7 @@ export default function Carte({children}) {
 
         backgroundImage : `URL(${background})`, 
         margin: "3vw",
+        border:"2px solid white",
         backgroundSize:"cover", 
         borderRadius:"10px",
         fontFamily:"BBH Sans Bartle",

@@ -3,55 +3,27 @@ import {useEffect, useState} from "react";
 
 export default function Game({}) {
 
-    const [cards, setCards] = useState([])
 
-    useEffect(() => {
-
-        fetch("/api/Cards.php", {
-            method:"POST"
-        })
+    const fetchState = () => {
+        fetch("/api/game-state.php")
         .then(response => response.json())
-        .then(data => {
+        .then(response => {
+            console.log(response) // <-- État du jeu, ou message comme : LAST_GAME_WON
+            stateTimeout.current = setTimeout(fetchState, 2000);
+        });
+    }
+	
+    useEffect(() => {
+        stateTimeout.current = setTimeout(fetchState, 1000);
 
-            console.log(data)
-            setCards(data)
-        })
-    }, [])
+        return () => {
+            if (stateTimeout.current) clearTimeout(stateTimeout.current);
+        }
+    
+    }, []);
 
-    return (
-        <>
-
-        <div style={{
-
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center"
-
-        }}> 
-            <div style={{
-
-                display:"flex", 
-                flexDirection: "row", 
-                justifyContent: "center"
-
-            }}>
-            { 
-                cards?.map(card => {
-
-                    return (
-
-                        <Carte key={card.id}>
-                            <p>{card.id}</p>
-                            <p>{card.cost}</p>
-                            <p>{card.mechanics}</p>
-                        </Carte>
-
-                    )
-                })
-            }
-            </div>
-        </div>
+    return <>
+    
     
     </>
-    )
 }
