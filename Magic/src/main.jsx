@@ -5,6 +5,7 @@ import Login from './pages/login'
 import Lobby from './pages/lobby'
 import Cards from './pages/cards'
 import Deck from './pages/deck'
+import Game from './pages/game'
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
@@ -13,7 +14,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/lobby" element={<Lobby />} />
             <Route path="/deck" element={<Deck />} />
             <Route path="/cards" element={<Cards />} />
-            
+            <Route path="/game" element={<Game />} />
         </Routes>
     </BrowserRouter>
 )
