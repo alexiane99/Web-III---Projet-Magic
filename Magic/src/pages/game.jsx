@@ -1,5 +1,6 @@
-import background from "../assets/img/stage_wallpaper.jpg"
+import background from "../assets/img/stage_wallpaper.jpg";
 import Carte from "../components/carte";
+import Profile from "../components/profile";
 import {useEffect, useState} from "react"; 
 
 export default function Game({}) {
@@ -84,9 +85,7 @@ export default function Game({}) {
             <div>
                 Pointage
             </div>
-            <div>
-                Avatar
-            </div>
+            <Profile></Profile>
             <div>
                 Pointage
             </div>
