@@ -4,10 +4,14 @@ import avatar from "../assets/img/Cocona.jpg"
 export default function Profile({children}) {
 
     return <div style={{
-
         // image: `URL(${frame})`,
-        // minWidth:"30vw",
         position:"relative",
+        aspectRatio:"1/1",
+        width:"8vw",
+        top:"10%",
+        zIndex:"10",
+        display:"flex",
+        justifyContent:"center",
 
     }}>
     <img src={avatar}
@@ -16,18 +20,19 @@ export default function Profile({children}) {
         borderRadius:"50%",
         width:"100%",
         height:"100%",
+        objectFit:"cover",
 
     }}>
     </img>
-     <img src={frame}
+     {/* <img src={frame}
      style={{
         position:"absolute",
         width:"100%",
         height:"100%",
      }}>
-    </img>
+    </img> */}
 
     {children}
-    Player 
+    Player
     </div>
 }

@@ -1,3 +1,4 @@
+import MainLayout from "../layouts/main-layout";
 import Carte from "../components/carte";
 import {useEffect, useState} from "react"; 
 
@@ -21,9 +22,11 @@ export default function Cards({}) {
     return (
         <>
         <div style={{
+            padding:"3vw",
             backgroundColor:"black",
             display:"grid", 
-            gridTemplateColumns:"repeat(4,1fr)",
+            gridTemplateColumns:"repeat(5,1fr)",
+            placeItems:"center",
 
         }}>
         { 

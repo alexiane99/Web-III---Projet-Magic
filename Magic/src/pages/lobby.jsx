@@ -1,3 +1,4 @@
+import MainLayout from "../layouts/main-layout";
 import background from "../assets/img/rooftop_bar.jpg";
 import {useRef, useEffect, useState} from "react" 
 import Button from "../components/button"
@@ -19,11 +20,11 @@ const chatRef = useRef(null);
 
             fontColor : "#333",
             backgroundColor : "white",
-            fontGoogleName : "Sofia",
             fontSize : "20px",
             hideIcons : false, // (or true),
             inputBackgroundColor : "rgba(137,146,147,1) 0%",
             inputFontColor : "black",
+            width:"900px",
             height : "690px",
             padding: "5px",
             memberListFontColor : "#ff00dd",
@@ -102,6 +103,7 @@ const chatRef = useRef(null);
 
 return  <>
 
+    <MainLayout>
     <div style={{
 
                 backgroundImage : `URL(${background})`, 
@@ -112,8 +114,6 @@ return  <>
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
-              
-              
                 
     }}> 
 
@@ -122,35 +122,34 @@ return  <>
         margin: "2vw",
         padding: "2.5vw",
         display: "flex", 
-        justifyContent: "space-around",
+        justifyContent: "center",
         flexDirection: "column",
         backgroundColor: "black", 
         color: "white",
         fontFamily : "BBH Sans Bartle",
         fontSize: "2vw",
-        height: "25vh"
+        height: "25vh",
+        position:"relative",
     }}>
-        <div style={{ justifyContent: "space-between"}}>
-        <h2 style={{padding: "1.5vw", textAlign: "center"}}>Ready?</h2>
-        <Button onClick={() => setGameplayMode("PVP")}>Play Game</Button>
-        <Button onClick={e=> setDeck(e)}>Deck</Button>
-        <Button onClick={() => setGameplayMode("TRAINING")}>Practice</Button>
-        <Button onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
+        <div style={{ display:"flex", position:"absolute", justifyContent: "center"}}>
+        <h2 style={{ padding: "1.5vw", textAlign: "center", position:"absolute"}}>Ready?</h2>
+        <Button style={{position:"absolute"}} onClick={() => setGameplayMode("PVP")}>Play Game</Button>
+        <Button style={{position:"absolute"}} onClick={e=> setDeck(e)}>Deck</Button>
+        <Button style={{position:"absolute"}} onClick={() => setGameplayMode("TRAINING")}>Practice</Button>
+        <Button style={{position:"absolute"}} onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
         </div>
 
         <div style={{
 
-            display: "flex", 
-            justifyContent: "center", 
-            alignContent: "end",
+           position:"fixed",
+           bottom:"0"
          
-        
 
         }}>
 
         {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
         {/* pour utilise ${ } dans une string, on utilise ` `         */}
-        <iframe ref={chatRef} width={700} height={240} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
+        <iframe ref={chatRef} width={1200} height={400} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
         
         </div>
    
@@ -159,6 +158,6 @@ return  <>
         
     </div>
 
-  
+    </MainLayout>
     </>
 }

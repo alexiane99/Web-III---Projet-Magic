@@ -1,3 +1,4 @@
+import MainLayout from "../layouts/main-layout";
 import background from "../assets/img/stage_wallpaper.jpg";
 import Carte from "../components/carte";
 import Profile from "../components/profile";
@@ -51,6 +52,7 @@ export default function Game({}) {
 
     return <>
 
+    <MainLayout>
     <div style={{
     
                     backgroundImage : `URL(${background})`, 
@@ -77,7 +79,8 @@ export default function Game({}) {
             flexDirection:"row",
             justifyContent:"space-evenly",
             alignItems:"center",
-            minHeight:"4.5vw",
+            minHeight:"8vh",
+            positon:"relative",
          
 
 
@@ -85,7 +88,7 @@ export default function Game({}) {
             <div>
                 Pointage
             </div>
-            <Profile></Profile>
+             <Profile></Profile>
             <div>
                 Pointage
             </div>
@@ -176,6 +179,7 @@ export default function Game({}) {
 
     </div>
     
+    </MainLayout>
     </>
 
 }
