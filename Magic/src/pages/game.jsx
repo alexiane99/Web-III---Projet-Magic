@@ -20,7 +20,6 @@ export default function Game({}) {
 
                 cartes_main[i] = data[i]
                 
-                
             }
              
             console.log(cartes_main)
@@ -61,6 +60,9 @@ export default function Game({}) {
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
+                    position:"relative",
+                    // width:"100%",
+                    // height:"100vh",
                   
                     
         }}>
@@ -68,6 +70,14 @@ export default function Game({}) {
 
             backgroundColor: "black",
             color: "white",
+            fontFamily:"BBH Sans Bartle",
+            fontsize:"1vw",
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"space-evenly",
+            alignItems:"center",
+            minHeight:"4.5vw",
+         
 
 
         }}>
@@ -82,19 +92,25 @@ export default function Game({}) {
             </div>
 
         </div>
-
         <div style={{
+            display:"flex",
+            justifyContent:"center",
+            minHeight:"30vh",
+            padding:"3vw",
+        }}>
+            <div style={{
 
             display: "grid",
-            gridTemplateColumns:"repeat(4,2fr)",
+            gridTemplateColumns:"repeat(8,1fr)",
+            placeItems:"center"
 
         }}>
-         { 
+        { 
             cards?.map(card => {
 
                 return (
 
-                    <Carte key={card.id}>
+                    <Carte minHeight="250px" width="150px" key={card.id}>
                         <p>{card.id}</p>
                         <p>{card.cost}</p>
                         <p>{card.mechanics}</p>
@@ -102,30 +118,61 @@ export default function Game({}) {
 
                 )
             })
-            }
+        }
+        </div>
+        </div>
+        <div style={{
+            display:"flex",
+            justifyContent:"center",
+            minHeight:"30vh",
+            padding:"3vw",
+        }}>
+        <div style={{
 
+            display: "grid",
+            gridTemplateColumns:"repeat(8,1fr)",
+            placeItems:"center",
+
+        }}>
+    
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+         <Carte minHeight="250px" width="150px"></Carte>
+        </div>
         </div>
         <div style={{
 
-            display: "grid",
-            gridTemplateColumns:"repeat(4,2fr)",
+            backgroundColor: "black",
+            color: "white",
+            fontFamily:"BBH Sans Bartle",
+            fontSize:"1vw",
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"space-evenly",
+            alignItems:"center",
+            minHeight:"6vw",
+            width:"100%",
+            position:"absolute",
+            bottom:"0",
+            overflowX:"hidden",
+         
 
+            
         }}>
-         { 
-            cards?.map(card => {
-
-                return (
-
-                    <Carte key={card.id}>
-                        <p>{card.id}</p>
-                        <p>{card.cost}</p>
-                        <p>{card.mechanics}</p>
-                    </Carte>
-
-                )
-            })
-            }
-
+             <div>
+                Pointage
+            </div>
+            <div>
+                Avatar
+            </div>
+            <div>
+                Pointage
+            </div>
         </div>
 
     </div>

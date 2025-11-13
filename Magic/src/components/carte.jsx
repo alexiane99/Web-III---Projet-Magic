@@ -1,6 +1,6 @@
 import background from "../assets/img/Cocona.jpg"
 
-export default function Carte({children}) {
+export default function Carte({minHeight="300px", width="200px", children}) {
 
     return <div className="carte" style={{
 
@@ -11,8 +11,8 @@ export default function Carte({children}) {
         borderRadius:"10px",
         fontFamily:"BBH Sans Bartle",
         textAlign: "center",
-        minHeight: "300px",
-        width: "200px",
+        minHeight: minHeight,
+        width: width,
 
         
     }}>
