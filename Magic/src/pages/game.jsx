@@ -97,22 +97,22 @@ export default function Game({}) {
 
         }}>
             {
-                game_state? 
-                    <div style={{
-                        display:"flex", 
-                        flexDirection:"column",
-                    }}>
-                        <div>HandSize: {game_state.opponent.handSize}</div>
-                        <div>{game_state.opponent.hp}</div>
-                        <div>{game_state.opponent.mp}</div>
-                    </div>
-                        <div style={{display:"flex", flexDirection:"column"}}>
-                        <div>{game_state.opponent.username}</div>
-                        <div>{game_state.opponent.heroClass}</div>
-                        <div>{game_state.opponent.welcomeText}</div>
-                    </div>
+                // game_state? 
+                //     <div style={{
+                //         display:"flex", 
+                //         flexDirection:"column",
+                //     }}>
+                //         <div>HandSize: {game_state.opponent.handSize}</div>
+                //         <div>{game_state.opponent.hp}</div>
+                //         <div>{game_state.opponent.mp}</div>
+                //     </div>
+                //         <div style={{display:"flex", flexDirection:"column"}}>
+                //         <div>{game_state.opponent.username}</div>
+                //         <div>{game_state.opponent.heroClass}</div>
+                //         <div>{game_state.opponent.welcomeText}</div>
+                //     </div>
 
-                    : null
+                //     : null
             }           
         </div>
         <div style={{
