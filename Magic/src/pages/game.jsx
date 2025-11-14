@@ -68,19 +68,17 @@ export default function Game({}) {
     <MainLayout>
     <div style={{
     
-                    backgroundImage : `URL(${background})`, 
-                    backgroundRepeat: "no-repeat" , 
-                    backgroundSize : "cover", 
-                    height: "100vh",
-                    backgroundPosition: "bottom-center", 
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    position:"relative",
-                    // width:"100%",
-                    // height:"100vh",
-                  
-                    
+        backgroundImage : `URL(${background})`, 
+        backgroundRepeat: "no-repeat" , 
+        backgroundSize : "cover", 
+        height: "100vh",
+        backgroundPosition: "bottom-center", 
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        //position:"relative",
+        width:"100%",
+        // height:"100vh",     
         }}>
         <div style={{
 
@@ -90,31 +88,25 @@ export default function Game({}) {
             fontsize:"1vw",
             display:"flex",
             flexDirection:"row",
-            justifyContent:"space-evenly",
+            justifyContent:"space-between",
             alignItems:"center",
             minHeight:"8vh",
             positon:"relative",
 
         }}>
-            {
-                // game_state? 
-                //     <div style={{
-                //         display:"flex", 
-                //         flexDirection:"column",
-                //     }}>
-                //         <div>HandSize: {game_state.opponent.handSize}</div>
-                //         <div>{game_state.opponent.hp}</div>
-                //         <div>{game_state.opponent.mp}</div>
-                //     </div>
-                //         <div style={{display:"flex", flexDirection:"column"}}>
-                //         <div>{game_state.opponent.username}</div>
-                //         <div>{game_state.opponent.heroClass}</div>
-                //         <div>{game_state.opponent.welcomeText}</div>
-                //     </div>
-
-                //     : null
-            }           
+        <div style={{
+            display:"flex", 
+            flexDirection:"column",
+        }}>
+            <div>HandSize:{1}</div>
+        </div>     
+        <div style={{display:"flex", justifyContent:"center", flexDirection:"column"}}>
+            <div>Opponent{1}</div>
+            <div>heroClass:{1}</div>
+            <div>Citation:{1}</div>
         </div>
+        </div>
+
         <div style={{
             display:"flex",
             justifyContent:"center",
