@@ -102,9 +102,15 @@ export default function Game({}) {
         }}>
             <div style={{
 
-            display: "grid",
-            gridTemplateColumns:"repeat(8,1fr)",
-            placeItems:"center"
+                // display:"flex",
+                // flexDirection:"row",
+                // flexWrap:"wrap",
+                // justifyContent:"center",
+
+                display: "grid",
+                gridTemplateColumns:"repeat(8,1fr)",
+                placeItems:"center",
+                width:"90%"
 
         }}>
         { 
@@ -131,9 +137,14 @@ export default function Game({}) {
         }}>
         <div style={{
 
+            // display:"flex",
+            // flexDirection:"row",
+            // flexWrap:"wrap",
+            // justifyContent:"center",
             display: "grid",
             gridTemplateColumns:"repeat(8,1fr)",
             placeItems:"center",
+            width:"90%",
 
         }}>
     

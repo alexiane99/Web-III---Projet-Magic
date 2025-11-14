@@ -1,11 +1,12 @@
-export default function Button({type = "button", onClick, className = "", text, children}) {
+// className = "bouton", 
+export default function Button({type = "button", onClick, text, children}) { 
 
-    return  <button style={{
+    return  <button className="bouton" style={{
             fontFamily: "BBH Sans Bartle",
-            padding : "2vw",
+            padding : "1.5vw",
             margin : "2vw", }} 
             onClick={onClick} type={type} 
-            className={"rounded border border-slate-400 p-1 hover:bg-slate-300 " + className}>
+            >
                 {text ?? children}
             </button>
 }

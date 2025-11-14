@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap'); 
 
 /* <style>
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap');
@@ -18,5 +19,17 @@
 .carte:hover{
 
   transform: scale(1.2);
+
+}
+.bouton{
+
+  border:"rounded"; 
+  background-color: "border-slate-400 p-1";
+
+}
+.bouton:hover{
+
+  background-color: "bg-slate-300";
+  transform: scale(1.1);
 
 }

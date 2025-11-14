@@ -18,14 +18,15 @@ const chatRef = useRef(null);
 
         let styles = {
 
-            fontColor : "#333",
-            backgroundColor : "white",
-            fontSize : "20px",
+            fontColor : "white",
+            backgroundColor : "black",
+            fontGoogleName:"Rock Salt", 
+            fontSize : "15px",
             hideIcons : false, // (or true),
-            inputBackgroundColor : "rgba(137,146,147,1) 0%",
+            inputBackgroundColor : "#f1f1f1",
             inputFontColor : "black",
-            width:"900px",
-            height : "690px",
+            width:"750px",
+            height : "500px",
             padding: "5px",
             memberListFontColor : "#ff00dd",
             borderColor : "blue",
@@ -112,49 +113,50 @@ return  <>
                 height: "100vh",
                 backgroundPosition: "bottom-center", 
                 overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
+                display:"flex",
+                justifyContent:"center"
                 
     }}> 
 
     <div style={{
 
         margin: "2vw",
-        padding: "2.5vw",
+        padding: "2vw",
         display: "flex", 
         justifyContent: "center",
         flexDirection: "column",
         backgroundColor: "black", 
+        border:"solid 3px white",
         color: "white",
         fontFamily : "BBH Sans Bartle",
-        fontSize: "2vw",
-        height: "25vh",
+        fontSize: "1.7vw",
+        height: "20vh",
         position:"relative",
     }}>
-        <div style={{ display:"flex", position:"absolute", justifyContent: "center"}}>
-        <h2 style={{ padding: "1.5vw", textAlign: "center", position:"absolute"}}>Ready?</h2>
-        <Button style={{position:"absolute"}} onClick={() => setGameplayMode("PVP")}>Play Game</Button>
-        <Button style={{position:"absolute"}} onClick={e=> setDeck(e)}>Deck</Button>
-        <Button style={{position:"absolute"}} onClick={() => setGameplayMode("TRAINING")}>Practice</Button>
-        <Button style={{position:"absolute"}} onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
+        <div style={{ display:"flex", position:"relative", justifyContent: "center"}}>
+        <h2 style={{ padding: "1.5vw"}}>Ready?</h2>
+        <Button style={{position:"relative"}} onClick={() => setGameplayMode("PVP")}>Play Game</Button>
+        <Button style={{position:"relative"}} onClick={e=> setDeck(e)}>Deck</Button>
+        <Button style={{position:"relative"}} onClick={() => setGameplayMode("TRAINING")}>Practice</Button>
+        <Button style={{position:"relative"}} onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
         </div>
+    </div>
 
-        <div style={{
+    <div style={{
 
-           position:"fixed",
-           bottom:"0"
+           position:"absolute",
+           bottom:"0",
+           right:"0",
+           overflow:"hidden",
          
 
         }}>
 
         {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
         {/* pour utilise ${ } dans une string, on utilise ` `         */}
-        <iframe ref={chatRef} width={1200} height={400} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
+        <iframe ref={chatRef} border-radius="50px" width={750} height={500} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
         
         </div>
-   
-    
-    </div>
         
     </div>
 
