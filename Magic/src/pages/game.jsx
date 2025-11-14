@@ -76,7 +76,7 @@ export default function Game({}) {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        position:"relative",
+        position:"absolute",
         width:"100%",
         height:"100vh",     
         }}>
@@ -85,7 +85,7 @@ export default function Game({}) {
             backgroundColor: "black",
             color: "white",
             fontFamily:"BBH Sans Bartle",
-            fontsize:"1vw",
+            fontsize:"1rem",
             display:"flex",
             flexDirection:"row",
             justifyContent:"space-between",
@@ -97,17 +97,21 @@ export default function Game({}) {
         <div style={{
             display:"flex", 
             flexDirection:"column",
+            padding:"2vw"
         }}>
             <div>{game_state?.opponent?.username?? "username" }</div>
             <div>{game_state?.opponent?.heroClass?? "heroClass" }</div>
             <div>{game_state?.opponent?.welcomeText?? "Citation"}</div>
+            <div>HandSize: {game_state?.opponent?.handSize?? "0" }</div>
         </div>     
         <div style={{
             display:"flex", 
             justifyContent:"center", 
-            flexDirection:"column"
+            flexDirection:"column",
+            padding:"2vw"
         }}>
-            <div>HandSize: {game_state?.opponent?.handSize?? "0" }</div>
+            <div>Cards: {game_state?.remainingCardsCount?? "0" }</div>
+            <div>Time: {game_state?.remainingTurnTime?? "0"}</div>
         </div>
         </div>
 
@@ -171,22 +175,20 @@ export default function Game({}) {
             flexDirection:"row",
             justifyContent:"between",
             alignItems:"center",
-            minHeight:"15vw",
+            minHeight:"8vh",
             width:"100%",
-            position:"absolute",
+            position:"fixed",
             bottom:"0",
             overflowX:"hidden",
             padding:"3vw",
-         
-
             
         }}>
             <div style={{
                 display:"flex",
                 flexDirection:"column",
             }}>
-                <div>HP:</div>
-                <div>MP: </div>
+                <div>HP:{game_state?.hp?? "0"}</div>
+                <div>MP:{game_state?.mp?? "0"}</div>
             </div>
             <div style={{
                 display: "grid",
@@ -221,7 +223,7 @@ export default function Game({}) {
                 flexDirection:"column",
                 position:"relative",
                 fontSize:"1rem",
-                padding:"1vw"
+                padding:"2vw"
             }}>
                 <div>{game_state?.heroClass?? "Hero Power"}</div>
                 <div>{game_state?.yourTurn?? "End Turn"}</div>
