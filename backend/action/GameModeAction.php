@@ -13,19 +13,26 @@
 
             $data = [];
             $result = [];
+            $invalide = False;
 
             if(!empty($_SESSION["key"])) {
 
                 if(isset($_POST["mode"])) {
               
                     $data["key"] = $_SESSION["key"];
-                    $data["type"] = $_POST["mode"];
+                    $data["type"] = $_POST["type"];
+                    $data["mode"] = $_POST["mode"];
 
                     $result = parent::callAPI("games/auto-match", $data);
+
+                    if($result == "JOINED_PVP" || "JOINED_TRAINING") {
+
+                        $invalide = True;
+                    }
                 }
             }
 
-            return compact("result");
+            return compact("result", "invalide");
 
         }
 

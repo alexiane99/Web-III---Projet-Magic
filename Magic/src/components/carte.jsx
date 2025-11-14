@@ -13,6 +13,14 @@ export default function Carte({minHeight="300px", width="200px", children}) {
         textAlign: "center",
         minHeight: minHeight,
         width: width,
+        fontSize:"0.5rem",
+        color:"white",
+        // display:"flex",
+        // justifyContent:"space-between",
+        // alignItems:"end",
+        // flexWrap:"wrap",
+        // position:"relative",
+
 
         
     }}>

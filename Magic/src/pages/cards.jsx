@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 
 export default function Cards({}) {
 
+    let key = localStorage.getItem("key")
+    console.log(key)
     const [cards, setCards] = useState([])
 
     useEffect(() => {
@@ -35,9 +37,9 @@ export default function Cards({}) {
                 return (
 
                     <Carte key={card.id}>
-                        <p>{card.id}</p>
-                        <p>{card.cost}</p>
-                        <p>{card.mechanics}</p>
+                        <p>Id: {card.id}</p>
+                        <p>Cost: {card.cost}</p>
+                        <p>Mechanics: {card.mechanics}</p>
                     </Carte>
 
                 )

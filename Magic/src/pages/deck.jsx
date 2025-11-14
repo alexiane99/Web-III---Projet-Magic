@@ -9,7 +9,31 @@ export default function Deck({}) {
     const startGame = (e) => {
         e.preventDefault
 
-        window.location.href = "/game"
+        let formData = new FormData()
+
+        //harcode, à vérifier
+        formData.append("type", "PVP")
+        formData.append("mode", "STANDARD")
+
+        fetch("/api/gamemode.php", {
+            method:"POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+
+            if(data == "JOINED_PVP" || data == "JOINED_TRAINING") {
+
+                window.location.href = "/game"
+
+            }
+
+        })
+
+
+    
     }
 
 

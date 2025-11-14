@@ -2,13 +2,17 @@ import MainLayout from "../layouts/main-layout";
 import background from "../assets/img/stage_wallpaper.jpg";
 import Carte from "../components/carte";
 import Profile from "../components/profile";
-import {useEffect, useState} from "react"; 
+import {useEffect, useState, useRef} from "react"; 
+import Button from "../components/button";
 
 export default function Game({}) {
 
+    let key = localStorage.getItem("key")
+    console.log(key)
+    let stateTimeout = useRef()
+
     // copie de la page cards
     const [cards, setCards] = useState([])
-    let cartes_main = []
 
     useEffect(() => {
 
@@ -18,37 +22,41 @@ export default function Game({}) {
         .then(response => response.json())
         .then(data => {
 
-            for(let i = 0; i < 8; i++) {
+            // for(let i = 0; i < 8; i++) {
 
-                cartes_main[i] = data[i]
+            //     cartes_deck[i] = data[i]
                 
-            }
+            // }
              
-            console.log(cartes_main)
-            setCards(cartes_main)
+            console.log(data)
+            setCards(data)
+
+            localStorage.setItem("cards", cards)
 
            
         })
     }, [])
 
 
-    // const fetchState = () => {
-    //     fetch("/api/game-state.php")
-    //     .then(response => response.json())
-    //     .then(response => {
-    //         console.log(response) // <-- État du jeu, ou message comme : LAST_GAME_WON
-    //         stateTimeout.current = setTimeout(fetchState, 2000);
-    //     });
-    // }
+    const fetchState = () => {
+        fetch("/api/game-state.php")
+        .then(response => response.json())
+        .then(response => {
+            
+            console.log(response) // <-- État du jeu, ou message comme : LAST_GAME_WON
+            
+            stateTimeout.current = setTimeout(fetchState, 2000);
+        });
+    }
 	
-    // useEffect(() => {
-    //     stateTimeout.current = setTimeout(fetchState, 1000);
+    useEffect(() => {
+        stateTimeout.current = setTimeout(fetchState, 1000);
 
-    //     return () => {
-    //         if (stateTimeout.current) clearTimeout(stateTimeout.current);
-    //     }
+        return () => {
+            if (stateTimeout.current) clearTimeout(stateTimeout.current);
+        }
     
-    // }, []);
+    }, []);
 
     return <>
 
@@ -113,20 +121,33 @@ export default function Game({}) {
                 width:"90%"
 
         }}>
-        { 
-            cards?.map(card => {
 
-                return (
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+        {/* { 
+            cards?.map(card => { //cards?.map(card =>
 
-                    <Carte minHeight="250px" width="150px" key={card.id}>
-                        <p>{card.id}</p>
-                        <p>{card.cost}</p>
-                        <p>{card.mechanics}</p>
-                    </Carte>
+                // for(let i = 0; i < 8; i++) {
 
-                )
+
+                    return (
+
+                        <Carte minHeight="250px" width="150px" key={card.id}>
+                            <p>Id: {card.id}</p>
+                            <p>Cost: {card.cost}</p>
+                            <p>Mechanics: {card.mechanics}</p>
+                        </Carte>
+
+                    )
+                // }
             })
-        }
+        } */}
         </div>
         </div>
         <div style={{
@@ -135,56 +156,56 @@ export default function Game({}) {
             minHeight:"30vh",
             padding:"3vw",
         }}>
-        <div style={{
-
-            // display:"flex",
-            // flexDirection:"row",
-            // flexWrap:"wrap",
-            // justifyContent:"center",
-            display: "grid",
-            gridTemplateColumns:"repeat(8,1fr)",
-            placeItems:"center",
-            width:"90%",
-
-        }}>
-    
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-         <Carte minHeight="250px" width="150px"></Carte>
-        </div>
         </div>
         <div style={{
 
             backgroundColor: "black",
             color: "white",
             fontFamily:"BBH Sans Bartle",
-            fontSize:"1vw",
+            fontSize:"0.8vw",
             display:"flex",
             flexDirection:"row",
             justifyContent:"space-evenly",
             alignItems:"center",
-            minHeight:"6vw",
+            minHeight:"15vw",
             width:"100%",
             position:"absolute",
             bottom:"0",
             overflowX:"hidden",
+            padding:"3vw",
          
 
             
         }}>
-             <div>
-                Pointage
+            <div style={{
+                display:"flex",
+                flexDirection:"column",
+            }}>
+                <div>HP:</div>
+                <div>MP: </div>
+                <div>Max MP: </div>
             </div>
-            <div>
-                Avatar
+            <div style={{
+                display: "grid",
+                gridTemplateColumns:"repeat(8,1fr)",
+                placeItems:"center",
+                width:"90%",
+            }}>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
+                <Carte minHeight="180px" width="120px"></Carte>
             </div>
-            <div>
-                Pointage
+            <div style={{
+                display:"flex",
+                flexDirection:"column",
+            }}>
+                <div>Hero Power</div>
+                <div>End Turn</div>
             </div>
         </div>
 
