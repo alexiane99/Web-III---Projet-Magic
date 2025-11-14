@@ -76,9 +76,9 @@ export default function Game({}) {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        //position:"relative",
+        position:"relative",
         width:"100%",
-        // height:"100vh",     
+        height:"100vh",     
         }}>
         <div style={{
 
@@ -90,7 +90,7 @@ export default function Game({}) {
             flexDirection:"row",
             justifyContent:"space-between",
             alignItems:"center",
-            minHeight:"8vh",
+            minHeight:"10vh",
             positon:"relative",
 
         }}>
@@ -98,12 +98,16 @@ export default function Game({}) {
             display:"flex", 
             flexDirection:"column",
         }}>
-            <div>HandSize:{1}</div>
+            <div>{game_state?.opponent?.username?? "username" }</div>
+            <div>{game_state?.opponent?.heroClass?? "heroClass" }</div>
+            <div>{game_state?.opponent?.welcomeText?? "Citation"}</div>
         </div>     
-        <div style={{display:"flex", justifyContent:"center", flexDirection:"column"}}>
-            <div>Opponent{1}</div>
-            <div>heroClass:{1}</div>
-            <div>Citation:{1}</div>
+        <div style={{
+            display:"flex", 
+            justifyContent:"center", 
+            flexDirection:"column"
+        }}>
+            <div>HandSize: {game_state?.opponent?.handSize?? "0" }</div>
         </div>
         </div>
 
@@ -121,7 +125,7 @@ export default function Game({}) {
                 // justifyContent:"center",
 
                 display: "grid",
-                gridTemplateColumns:"repeat(8,1fr)",
+                grid:"1fr 1fr/1fr 1fr 1fr 1fr",
                 placeItems:"center",
                 width:"90%"
 
@@ -131,7 +135,7 @@ export default function Game({}) {
             game_state.hand?.map(card => {
 
                 return (
-                    <Carte key={card.id}>
+                    <Carte key={card.id} minHeight="220px" width="150px">
                         <p>Id: {card.id}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -140,15 +144,14 @@ export default function Game({}) {
             })
             
         }    
-
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
+            {/* <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte>
+            <Carte minHeight="220px" width="150px"></Carte> */}
         </div>
         </div>
         <div style={{
@@ -163,10 +166,10 @@ export default function Game({}) {
             backgroundColor: "black",
             color: "white",
             fontFamily:"BBH Sans Bartle",
-            fontSize:"0.8vw",
+            fontSize:"1rem",
             display:"flex",
             flexDirection:"row",
-            justifyContent:"space-evenly",
+            justifyContent:"between",
             alignItems:"center",
             minHeight:"15vw",
             width:"100%",
@@ -184,7 +187,6 @@ export default function Game({}) {
             }}>
                 <div>HP:</div>
                 <div>MP: </div>
-                <div>Max MP: </div>
             </div>
             <div style={{
                 display: "grid",
@@ -192,21 +194,37 @@ export default function Game({}) {
                 placeItems:"center",
                 width:"90%",
             }}>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
-                <Carte minHeight="180px" width="120px"></Carte>
+            {
+                game_state.board?.map(card => {
+
+                      return (
+                    <Carte key={card.id} minHeight="150px" width="100px">
+                        <p>Id: {card.id}</p>
+                        <p>Cost: {card.cost}</p>
+                        <p>Mechanics: {card.mechanics}</p>
+                    </Carte>
+                )
+
+                })
+            }
+                {/* <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte>
+                <Carte minHeight="150px" width="100px"></Carte> */}
             </div>
             <div style={{
                 display:"flex",
                 flexDirection:"column",
+                position:"relative",
+                fontSize:"1rem",
+                padding:"1vw"
             }}>
-                <div>Hero Power</div>
-                <div>End Turn</div>
+                <div>{game_state?.heroClass?? "Hero Power"}</div>
+                <div>{game_state?.yourTurn?? "End Turn"}</div>
             </div>
         </div>
 

@@ -5,12 +5,13 @@ export default function Carte({minHeight="300px", width="200px", children}) {
     return <div className="carte" style={{
 
         backgroundImage : `URL(${background})`, 
-        margin: "2vw",
+        margin: "1vw",
         border:"2px solid white",
         backgroundSize:"cover", 
         borderRadius:"10px",
         fontFamily:"BBH Sans Bartle",
         textAlign: "center",
+        alignItems:"end",
         minHeight: minHeight,
         width: width,
         fontSize:"0.5rem",
@@ -21,8 +22,6 @@ export default function Carte({minHeight="300px", width="200px", children}) {
         // flexWrap:"wrap",
         // position:"relative",
 
-
-        
     }}>
      {children}
     </div>
