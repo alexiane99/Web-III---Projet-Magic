@@ -10,6 +10,9 @@ export default function Game({}) {
     let key = localStorage.getItem("key")
     console.log(key)
     let stateTimeout = useRef()
+    const [game_state, setGamestate] = useState({
+        game_state : null,
+    })
 
     // copie de la page cards
     const [cards, setCards] = useState([])
@@ -44,7 +47,9 @@ export default function Game({}) {
         .then(response => {
             
             console.log(response) // <-- État du jeu, ou message comme : LAST_GAME_WON
-            
+            setGamestate(response)
+
+
             stateTimeout.current = setTimeout(fetchState, 2000);
         });
     }
@@ -89,18 +94,26 @@ export default function Game({}) {
             alignItems:"center",
             minHeight:"8vh",
             positon:"relative",
-         
-
 
         }}>
-            <div>
-                Pointage
-            </div>
-             <Profile></Profile>
-            <div>
-                Pointage
-            </div>
+            {
+                game_state? 
+                    <div style={{
+                        display:"flex", 
+                        flexDirection:"column",
+                    }}>
+                        <div>HandSize: {game_state.opponent.handSize}</div>
+                        <div>{game_state.opponent.hp}</div>
+                        <div>{game_state.opponent.mp}</div>
+                    </div>
+                        <div style={{display:"flex", flexDirection:"column"}}>
+                        <div>{game_state.opponent.username}</div>
+                        <div>{game_state.opponent.heroClass}</div>
+                        <div>{game_state.opponent.welcomeText}</div>
+                    </div>
 
+                    : null
+            }           
         </div>
         <div style={{
             display:"flex",
@@ -121,33 +134,29 @@ export default function Game({}) {
                 width:"90%"
 
         }}>
+        {
+                
+            game_state.hand?.map(card => {
 
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-            <Carte minHeight="180px" width="120px"></Carte>
-        {/* { 
-            cards?.map(card => { //cards?.map(card =>
-
-                // for(let i = 0; i < 8; i++) {
-
-
-                    return (
-
-                        <Carte minHeight="250px" width="150px" key={card.id}>
-                            <p>Id: {card.id}</p>
-                            <p>Cost: {card.cost}</p>
-                            <p>Mechanics: {card.mechanics}</p>
-                        </Carte>
-
-                    )
-                // }
+                return (
+                    <Carte key={card.id}>
+                        <p>Id: {card.id}</p>
+                        <p>Cost: {card.cost}</p>
+                        <p>Mechanics: {card.mechanics}</p>
+                    </Carte>
+                )
             })
-        } */}
+            
+        }    
+
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
+            <Carte minHeight="180px" width="120px"></Carte>
         </div>
         </div>
         <div style={{

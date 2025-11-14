@@ -12,7 +12,7 @@ export default function Deck({}) {
         let formData = new FormData()
 
         //harcode, à vérifier
-        formData.append("type", "PVP")
+        formData.append("type", "TRAINING")
         formData.append("mode", "STANDARD")
 
         fetch("/api/gamemode.php", {
