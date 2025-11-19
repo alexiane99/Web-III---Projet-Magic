@@ -16,6 +16,7 @@ export default function Game({}) {
 
     // copie de la page cards
     const [cards, setCards] = useState([])
+    const [select, setSelected] = useState([])
 
     useEffect(() => {
 
@@ -62,6 +63,37 @@ export default function Game({}) {
         }
     
     }, []);
+
+    const handleCardSelection = () => {
+
+        setSelected(card.id)
+
+        let formData = new FormData()
+
+        actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"]
+
+        // if(play) {
+        //     formData.append("type", "PLAY")
+        //     formData.append("uid", card.id)
+        // }
+        // elif (attack) {
+        //     formData.append("type", "ATTACK")
+        //     formData.append("uid", card.id)
+        //     formData.append("targetuid", card.id)
+        // }
+        // elif(end) {
+        //     formData.append("type","END_TURN")
+        // }
+        // elif(surrender) {
+        //     formData.append("type", "SURRENDER")
+        // }
+
+
+
+
+
+    }
+
 
     return <>
 
@@ -139,7 +171,7 @@ export default function Game({}) {
             game_state.hand?.map(card => {
 
                 return (
-                    <Carte key={card.id} minHeight="220px" width="150px">
+                    <Carte key={card.id} onClick={handleCardSelection(card.id)} minHeight="220px" width="150px">
                         <p>Id: {card.id}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -148,14 +180,7 @@ export default function Game({}) {
             })
             
         }    
-            {/* <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte>
-            <Carte minHeight="220px" width="150px"></Carte> */}
+        
         </div>
         </div>
         <div style={{
@@ -209,14 +234,7 @@ export default function Game({}) {
 
                 })
             }
-                {/* <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte>
-                <Carte minHeight="150px" width="100px"></Carte> */}
+            
             </div>
             <div style={{
                 display:"flex",
