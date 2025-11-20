@@ -162,21 +162,23 @@ export default function Game({}) {
 
         <div style={{
             display:"flex",
+            flexDirection:"column",
+            flexGrow:"grow",
             justifyContent:"center",
             minHeight:"30vh",
             padding:"3vw",
         }}>
-            <div style={{
+        <div style={{
 
-                // display:"flex",
-                // flexDirection:"row",
-                // flexWrap:"wrap",
-                // justifyContent:"center",
+                display:"flex",
+                flexDirection:"row",
+                flexWrap:"wrap",
+                justifyContent:"center",
 
-                display: "grid",
-                grid:"1fr 1fr/1fr 1fr 1fr 1fr",
-                placeItems:"center",
-                width:"90%"
+                // display: "grid",
+                // grid:"1fr/1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+                // placeItems:"center",
+                // width:"90%"
 
         }}>
         {
@@ -192,6 +194,20 @@ export default function Game({}) {
             })
                 
         }
+        </div>
+         <div style={{
+
+                display:"flex",
+                flexDirection:"row",
+                flexWrap:"wrap",
+                justifyContent:"center",
+
+                // display: "grid",
+                // grid:"1fr/1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+                // placeItems:"center",
+                // width:"90%"
+
+        }}>
         {
             game_state.board?.map(card => {
 
@@ -205,7 +221,6 @@ export default function Game({}) {
             })
             
         }    
-        
         </div>
         </div>
         <div style={{
