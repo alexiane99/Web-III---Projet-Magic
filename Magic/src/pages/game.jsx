@@ -15,10 +15,12 @@ export default function Game({}) {
     // réception du deck
     const [cards, setCards] = useState([])
 
+    // récupération de l'état de la partie 
     const [game_state, setGamestate] = useState({
         game_state : null,
     })
 
+    // sauvegarde des actions du joueur et des cartes utilisées
     const [select, setSelected] = useState({
         type:"", 
         uid:"",
@@ -36,7 +38,7 @@ export default function Game({}) {
             console.log(data)
             setCards(data)
 
-            localStorage.setItem("cards", cards)
+            localStorage.setItem("cards", data)
 
         })
     }, [])
@@ -63,9 +65,24 @@ export default function Game({}) {
     
     }, []);
 
-    const sendResponse = () => {
+    const handleClick_card = (card_uid) => {
 
-        actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"]
+
+        setSelected({...select, uid : card_uid})
+
+    }
+
+    const handleOpponent_card = (card_uid) => {
+
+        setSelected({...select, targetuid : card_uid})
+
+    }
+
+    const sendResponse = (type_choisi) => {
+
+        setSelected({...select, type : type_choisi})
+
+        //actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"] pour se rappeler 
 
         let formData = new FormData()
         formData.append("type", type)
@@ -90,7 +107,6 @@ export default function Game({}) {
         })
 
     }
-
 
     return <>
 
@@ -164,11 +180,23 @@ export default function Game({}) {
 
         }}>
         {
-                
-            game_state.hand?.map(card => {
+            game_state?.opponent?.board?.map(card => {
 
                 return (
-                    <Carte key={card.uid} cardUId={card.uid} minHeight="220px" width="150px">
+                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handleOpponent_card(card.uid)} minHeight="220px" width="150px">
+                        <p>Id: {card.uid}</p>
+                        <p>Cost: {card.cost}</p>
+                        <p>Mechanics: {card.mechanics}</p>
+                    </Carte>
+                )
+            })
+                
+        }
+        {
+            game_state.board?.map(card => {
+
+                return (
+                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handleClick_card(card.uid)} minHeight="220px" width="150px">
                         <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -219,10 +247,10 @@ export default function Game({}) {
                 width:"90%",
             }}>
             {
-                game_state.board?.map(card => {
+                game_state.hand?.map(card => {
 
                       return (
-                    <Carte key={card.uid} cardUId={card.uid} minHeight="150px" width="100px">
+                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handleClick_card(card.uid)} minHeight="150px" width="100px">
                         <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -240,8 +268,8 @@ export default function Game({}) {
                 fontSize:"1rem",
                 padding:"2vw"
             }}>
-                <Button>{game_state?.heroPowerAlreadyUsed?? "Hero Power"}</Button>
-                <Button onClick={()=> setGamestate("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Play"}</Button>
+                <Button onClick={()=> sendResponse("HERO_POWER")}>{game_state?.heroPowerAlreadyUsed?? "Hero Power"}</Button>
+                <Button onClick={()=> sendResponse("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Play"}</Button>
             </div>
         </div>
 

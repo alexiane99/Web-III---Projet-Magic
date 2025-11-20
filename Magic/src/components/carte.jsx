@@ -2,7 +2,7 @@ import playcard from "../assets/img/Cocona.jpg"
 import boardcard from "../assets/img/Taeyang.jpg"; 
 import handcard from "../assets/img/G-Dragon.jpg";
 
-export default function Carte({minHeight="300px", width="200px", children, cardUId}) {
+export default function Carte({minHeight="300px", width="200px", children, cardUId, onClick}) {
 
     let background = playcard
     
@@ -14,7 +14,7 @@ export default function Carte({minHeight="300px", width="200px", children, cardU
         background = handcard
     }
 
-    return <div className="carte" style={{
+    return <div className="carte" onClick={onClick} style={{
 
         backgroundImage : `url(${background})`, //`url(${background})`, 
         margin: "1vw",
