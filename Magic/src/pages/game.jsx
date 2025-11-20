@@ -11,13 +11,19 @@ export default function Game({}) {
     let key = localStorage.getItem("key")
     console.log(key)
     let stateTimeout = useRef()
+
+    // réception du deck
+    const [cards, setCards] = useState([])
+
     const [game_state, setGamestate] = useState({
         game_state : null,
     })
 
-    // copie de la page cards
-    const [cards, setCards] = useState([])
-    const [select, setSelected] = useState([])
+    const [select, setSelected] = useState({
+        type:"", 
+        uid:"",
+        targetUid:"", 
+    })
 
     useEffect(() => {
 
@@ -32,10 +38,8 @@ export default function Game({}) {
 
             localStorage.setItem("cards", cards)
 
-           
         })
     }, [])
-
 
     const fetchState = () => {
         fetch("/api/game-state.php")
@@ -45,12 +49,12 @@ export default function Game({}) {
             console.log(response) // <-- État du jeu, ou message comme : LAST_GAME_WON
             setGamestate(response)
 
-
             stateTimeout.current = setTimeout(fetchState, 2000);
         });
     }
 	
     useEffect(() => {
+
         stateTimeout.current = setTimeout(fetchState, 1000);
 
         return () => {
@@ -59,35 +63,33 @@ export default function Game({}) {
     
     }, []);
 
-    // const handleCardSelection = () => {
+    const sendResponse = () => {
 
-        // setSelected(card.id)
+        actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"]
 
-        // let formData = new FormData()
+        let formData = new FormData()
+        formData.append("type", type)
 
-        // actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"]
+        if (carduid != null) {
+            formData.append("uid", carduid)
+        }
 
-        // if(play) {
-        //     formData.append("type", "PLAY")
-        //     formData.append("uid", card.id)
-        // }
-        // elif (attack) {
-        //     formData.append("type", "ATTACK")
-        //     formData.append("uid", card.id)
-        //     formData.append("targetuid", card.id)
-        // }
-        // elif(end) {
-        //     formData.append("type","END_TURN")
-        // }
-        // elif(surrender) {
-        //     formData.append("type", "SURRENDER")
-        // }
+        if (targetUid != null) {
+            formData.append("targetUid", targetuid)
+        }
 
+        fetch("/api/GamePlay.php", {
+            method:"POST",
+            body: formData
+        })
+        .then(response =>
+            response.json()
+        )
+        .then(data => {
+            console.log(data)
+        })
 
-
-
-
-    // }
+    }
 
 
     return <>
@@ -166,8 +168,8 @@ export default function Game({}) {
             game_state.hand?.map(card => {
 
                 return (
-                    <Carte key={card.id} cardId={card.id} minHeight="220px" width="150px">
-                        <p>Id: {card.id}</p>
+                    <Carte key={card.uid} cardUId={card.uid} minHeight="220px" width="150px">
+                        <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
                     </Carte>
@@ -197,10 +199,10 @@ export default function Game({}) {
             alignItems:"center",
             minHeight:"8vh",
             width:"100%",
-            position:"fixed",
+            position:"relative",
             bottom:"0",
             overflowX:"hidden",
-            padding:"3vw",
+            padding:"1vw",
             
         }}>
             <div style={{
@@ -220,8 +222,8 @@ export default function Game({}) {
                 game_state.board?.map(card => {
 
                       return (
-                    <Carte key={card.id} cardId={card.id} minHeight="150px" width="100px">
-                        <p>Id: {card.id}</p>
+                    <Carte key={card.uid} cardUId={card.uid} minHeight="150px" width="100px">
+                        <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
                     </Carte>
@@ -238,8 +240,8 @@ export default function Game({}) {
                 fontSize:"1rem",
                 padding:"2vw"
             }}>
-                <div>{game_state?.heroClass?? "Hero Power"}</div>
-                <div>{game_state?.yourTurn?? "End Turn"}</div>
+                <Button>{game_state?.heroPowerAlreadyUsed?? "Hero Power"}</Button>
+                <Button onClick={()=> setGamestate("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Play"}</Button>
             </div>
         </div>
 

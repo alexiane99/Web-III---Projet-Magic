@@ -2,15 +2,15 @@ import playcard from "../assets/img/Cocona.jpg"
 import boardcard from "../assets/img/Taeyang.jpg"; 
 import handcard from "../assets/img/G-Dragon.jpg";
 
-export default function Carte({minHeight="300px", width="200px", children, cardId}) {
+export default function Carte({minHeight="300px", width="200px", children, cardUId}) {
 
     let background = playcard
     
-    if(20 < cardId < 70) {
+    if(cardUId % 2 == 0) {
 
         background = boardcard;
     }
-    if (cardId >= 70) {
+    if(cardUId % 3 == 0) {
         background = handcard
     }
 

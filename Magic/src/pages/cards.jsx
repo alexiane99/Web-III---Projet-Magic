@@ -36,8 +36,8 @@ export default function Cards({}) {
 
                 return (
 
-                    <Carte key={card.id}>
-                        <p>Id: {card.id}</p>
+                    <Carte key={card.uid}>
+                        <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
                     </Carte>
