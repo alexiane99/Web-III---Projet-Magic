@@ -69,12 +69,14 @@ export default function Game({}) {
 
 
         setSelected({...select, uid : card_uid})
+        console.log(`card sélectionnée${card_uid}`)
 
     }
 
     const handleOpponent_card = (card_uid) => {
 
         setSelected({...select, targetuid : card_uid})
+        console.log(`card sélectionnée${card_uid}`)
 
     }
 
