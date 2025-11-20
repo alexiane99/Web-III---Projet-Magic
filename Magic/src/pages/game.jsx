@@ -1,5 +1,6 @@
 import MainLayout from "../layouts/main-layout";
 import background from "../assets/img/stage_wallpaper.jpg";
+
 import Carte from "../components/carte";
 import Profile from "../components/profile";
 import {useEffect, useState, useRef} from "react"; 
@@ -165,7 +166,7 @@ export default function Game({}) {
             game_state.hand?.map(card => {
 
                 return (
-                    <Carte key={card.id} minHeight="220px" width="150px">
+                    <Carte key={card.id} cardId={card.id} minHeight="220px" width="150px">
                         <p>Id: {card.id}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -219,7 +220,7 @@ export default function Game({}) {
                 game_state.board?.map(card => {
 
                       return (
-                    <Carte key={card.id} minHeight="150px" width="100px">
+                    <Carte key={card.id} cardId={card.id} minHeight="150px" width="100px">
                         <p>Id: {card.id}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>

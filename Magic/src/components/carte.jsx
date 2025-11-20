@@ -1,10 +1,22 @@
-import background from "../assets/img/Cocona.jpg"
+import playcard from "../assets/img/Cocona.jpg"
+import boardcard from "../assets/img/Taeyang.jpg"; 
+import handcard from "../assets/img/G-Dragon.jpg";
 
-export default function Carte({minHeight="300px", width="200px", children}) {
+export default function Carte({minHeight="300px", width="200px", children, cardId}) {
+
+    let background = playcard
+    
+    if(20 < cardId < 70) {
+
+        background = boardcard;
+    }
+    if (cardId >= 70) {
+        background = handcard
+    }
 
     return <div className="carte" style={{
 
-        backgroundImage : `URL(${background})`, 
+        backgroundImage : `url(${background})`, //`url(${background})`, 
         margin: "1vw",
         border:"2px solid white",
         backgroundSize:"cover", 
