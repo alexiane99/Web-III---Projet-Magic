@@ -225,9 +225,9 @@ export default function Game({}) {
             flexDirection:"row",
             justifyContent:"between",
             alignItems:"center",
-            minHeight:"8vh",
+            maxHeight:"200px",
             width:"100%",
-            position:"relative",
+            position:"fixed",
             bottom:"0",
             overflowX:"hidden",
             padding:"1vw",
@@ -265,10 +265,10 @@ export default function Game({}) {
                 display:"flex",
                 flexDirection:"column",
                 position:"relative",
-                fontSize:"1rem",
-                padding:"2vw"
+                fontSize:"0.8rem",
+                padding:"0.5vw"
             }}>
-                <Button onClick={()=> sendResponse("HERO_POWER")}>{game_state?.heroPowerAlreadyUsed?? "Hero Power"}</Button>
+                <Button onClick={()=> sendResponse("HERO_POWER")}>Hero Power</Button> 
                 <Button onClick={()=> sendResponse("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Play"}</Button>
             </div>
         </div>
