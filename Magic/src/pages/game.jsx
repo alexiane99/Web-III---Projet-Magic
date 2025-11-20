@@ -87,15 +87,17 @@ export default function Game({}) {
         //actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"] pour se rappeler 
 
         let formData = new FormData()
-        formData.append("type", type)
+        formData.append("type", type_choisi)
 
-        if (carduid != null) {
-            formData.append("uid", carduid)
+        if (select.uid != null) {
+            formData.append("uid", select.uid)
         }
 
-        if (targetUid != null) {
-            formData.append("targetUid", targetuid)
+        if (select.targetUid != null) {
+            formData.append("targetUid", select.targetUid)
         }
+
+        console.log("dm serveur ici")
 
         fetch("/api/GamePlay.php", {
             method:"POST",
