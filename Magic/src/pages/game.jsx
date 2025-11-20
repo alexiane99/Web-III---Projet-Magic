@@ -20,17 +20,11 @@ export default function Game({}) {
 
     useEffect(() => {
 
-        fetch("/api/Cards.php", {
+        fetch("/api/Deck.php", {
             method:"POST"
         })
         .then(response => response.json())
         .then(data => {
-
-            // for(let i = 0; i < 8; i++) {
-
-            //     cartes_deck[i] = data[i]
-                
-            // }
              
             console.log(data)
             setCards(data)
@@ -64,13 +58,13 @@ export default function Game({}) {
     
     }, []);
 
-    const handleCardSelection = () => {
+    // const handleCardSelection = () => {
 
-        setSelected(card.id)
+        // setSelected(card.id)
 
-        let formData = new FormData()
+        // let formData = new FormData()
 
-        actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"]
+        // actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"]
 
         // if(play) {
         //     formData.append("type", "PLAY")
@@ -92,7 +86,7 @@ export default function Game({}) {
 
 
 
-    }
+    // }
 
 
     return <>
@@ -171,7 +165,7 @@ export default function Game({}) {
             game_state.hand?.map(card => {
 
                 return (
-                    <Carte key={card.id} onClick={handleCardSelection(card.id)} minHeight="220px" width="150px">
+                    <Carte key={card.id} minHeight="220px" width="150px">
                         <p>Id: {card.id}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
