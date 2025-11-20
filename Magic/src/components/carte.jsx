@@ -2,9 +2,14 @@ import playcard from "../assets/img/Cocona.jpg"
 import boardcard from "../assets/img/Taeyang.jpg"; 
 import handcard from "../assets/img/G-Dragon.jpg";
 
-export default function Carte({minHeight="300px", width="200px", children, cardUId, onClick}) {
+export default function Carte({minHeight="300px", width="200px", children, cardUId, onClick, color}) {
 
     let background = playcard
+
+    if (color == null) {
+
+        color = "white"
+    }
     
     if(cardUId % 2 == 0) {
 
@@ -18,7 +23,7 @@ export default function Carte({minHeight="300px", width="200px", children, cardU
 
         backgroundImage : `url(${background})`, //`url(${background})`, 
         margin: "1vw",
-        border:"2px solid white",
+        border: `3px solid ${color}`,
         backgroundSize:"cover", 
         borderRadius:"10px",
         fontFamily:"BBH Sans Bartle",

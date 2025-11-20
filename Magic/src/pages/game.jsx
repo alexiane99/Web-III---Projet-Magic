@@ -183,7 +183,7 @@ export default function Game({}) {
             game_state?.opponent?.board?.map(card => {
 
                 return (
-                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handleOpponent_card(card.uid)} minHeight="220px" width="150px">
+                    <Carte key={card.uid} cardUId={card.uid} color="blue" onClick={() => handleOpponent_card(card.uid)} minHeight="220px" width="150px">
                         <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -196,7 +196,7 @@ export default function Game({}) {
             game_state.board?.map(card => {
 
                 return (
-                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handleClick_card(card.uid)} minHeight="220px" width="150px">
+                    <Carte key={card.uid} cardUId={card.uid} color="yellow" onClick={() => handleClick_card(card.uid)} minHeight="220px" width="150px">
                         <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
