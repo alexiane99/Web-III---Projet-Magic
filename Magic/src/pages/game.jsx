@@ -11,6 +11,8 @@ export default function Game({}) {
     let key = localStorage.getItem("key")
     console.log(key)
     let stateTimeout = useRef()
+    let messageResponse = useRef()
+    let response = ""
 
     // réception du deck
     const [cards, setCards] = useState([])
@@ -26,6 +28,8 @@ export default function Game({}) {
         uid: null,
 
     })
+
+    const [message, setMessage] = useState(["Game On"])
 
     useEffect(() => {
 
@@ -71,7 +75,7 @@ export default function Game({}) {
 
         //if(game_state.yourTurn === true) {
 
-            sendResponse("PLAY", card_uid, null)
+           setTimeout(sendResponse("PLAY", card_uid, null), 2000)
         //}
         
 
@@ -96,7 +100,7 @@ export default function Game({}) {
 
                 //if (selection.type != null & selection.uid != null) {
 
-                    sendResponse("ATTACK", selection.uid, card_uid)
+                    setTimeout(sendResponse("ATTACK", selection.uid, card_uid),2000)
 
                     // pour reset
                     setSelected({...selection, type: null})
@@ -137,11 +141,28 @@ export default function Game({}) {
             console.log("Tour joué")
             console.log(data)
 
-            fetchState()
-            
+            response = data 
+            messageResponse.current = setMessage(response)
+
+            // stateTimeout.current = setTimeout()
         })
 
     }
+
+    // useEffect(()=> {
+
+    //     messageResponse.current = setMessage(response)
+        
+    //     return () => {
+
+    //         if (messageResponse.current) {
+
+    //             messageResponse.current = null
+
+    //         }
+    //     }
+
+    // }, [message])
 
     return <>
 
@@ -188,10 +209,12 @@ export default function Game({}) {
             display:"flex", 
             justifyContent:"center", 
             flexDirection:"column",
+            textAlign:"right",
             padding:"2vw"
         }}>
             <div>Cards: {game_state?.remainingCardsCount?? "0" }</div>
             <div>Time: {game_state?.remainingTurnTime?? "0"}</div>
+            <Button>Chat</Button>
         </div>
         </div>
 
@@ -270,7 +293,7 @@ export default function Game({}) {
             backgroundColor: "black",
             color: "white",
             fontFamily:"BBH Sans Bartle",
-            fontSize:"1rem",
+            fontSize:"0.8rem",
             display:"flex",
             flexDirection:"row",
             justifyContent:"between",
@@ -289,6 +312,16 @@ export default function Game({}) {
             }}>
                 <div>HP:{game_state?.hp?? "0"}</div>
                 <div>MP:{game_state?.mp?? "0"}</div>
+                <div>Message:</div>
+                <div style={{ 
+                    fontsize: "0.8rem", 
+                    height:"100px",
+                    backgroundColor:"white",
+                    fontFamily:"BBH Sans Bartle",
+                    color:"black", 
+                    }}>
+                    { message?? "Game On"}
+                </div>
             </div>
             <div style={{
                 display: "grid",
@@ -318,6 +351,7 @@ export default function Game({}) {
                 fontSize:"0.8rem",
                 padding:"2vw"
             }}>
+                <Button onClick={()=> sendResponse("SURRENDER")}>Surrender</Button>
                 <Button onClick={()=> sendResponse("HERO_POWER")}>Hero Power</Button> 
                 <Button style={{fonColor:"red"}} onClick={()=> sendResponse("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Wait Turn"}</Button>
             </div>
