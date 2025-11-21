@@ -20,11 +20,11 @@ export default function Game({}) {
         game_state : null,
     })
 
-    // sauvegarde des actions du joueur et des cartes utilisées
-    const [select, setSelected] = useState({
-        type:"", 
-        uid:"",
-        targetUid:"", 
+    const [selection, setSelected] = useState({
+
+        type: null,
+        uid: null,
+
     })
 
     useEffect(() => {
@@ -65,36 +65,57 @@ export default function Game({}) {
     
     }, []);
 
-    const handleClick_card = (card_uid) => {
+    const handlePlay_card = (card_uid) => {
 
+        if (game_state.yourturn) {
+            console.log(`card à jouer ${card_uid}`)
+            sendResponse("PLAY", card_uid, null)
+        }
 
-        setSelected({...select, uid : card_uid})
-        console.log(`card sélectionnée${card_uid}`)
+    }
 
+    const handleAttack_card = (card_uid) => {
+
+        if (game_state.yourturn) {
+
+            console.log(`card d'attaque ${card_uid}`)
+            setSelected({...selection, type:"ATTACK"})
+            setSelected({...selection, uid : card_uid})
+        }
     }
 
     const handleOpponent_card = (card_uid) => {
 
-        setSelected({...select, targetuid : card_uid})
-        console.log(`card sélectionnée${card_uid}`)
+        if (game_state.yourturn) {
 
+            console.log(`card adverses ${card_uid}`)
+
+            if (selection.type != null & selection.uid != null) {
+
+                sendResponse("ATTACK", selection.uid, card_uid)
+
+                // pour reset
+                setSelected({...selection, type: null})
+                setSelected({...selection, uid: null})
+                setSelected({...selection, targetUid: 0})
+
+            }
+        }
     }
 
-    const sendResponse = (type_choisi) => {
-
-        setSelected({...select, type : type_choisi})
+    const sendResponse = (type, uid=null, targetUid=null) => {
 
         //actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"] pour se rappeler 
 
         let formData = new FormData()
-        formData.append("type", type_choisi)
+        formData.append("type", type)
 
-        if (select.uid != null) {
-            formData.append("uid", select.uid)
+        if (selection.uid != null) {
+            formData.append("uid", uid)
         }
 
-        if (select.targetUid != null) {
-            formData.append("targetUid", select.targetUid)
+        if (selection.targetUid != null) {
+            formData.append("targetUid", targetUid)
         }
 
         console.log("dm serveur ici")
@@ -107,7 +128,9 @@ export default function Game({}) {
             response.json()
         )
         .then(data => {
+            console.log("Tour joué")
             console.log(data)
+            
         })
 
     }
@@ -216,7 +239,7 @@ export default function Game({}) {
             game_state.board?.map(card => {
 
                 return (
-                    <Carte key={card.uid} cardUId={card.uid} color="yellow" onClick={() => handleClick_card(card.uid)} minHeight="220px" width="150px">
+                    <Carte key={card.uid} cardUId={card.uid} color="yellow" onClick={() => handleAttack_card(card.uid)} minHeight="220px" width="150px">
                         <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -269,7 +292,7 @@ export default function Game({}) {
                 game_state.hand?.map(card => {
 
                       return (
-                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handleClick_card(card.uid)} minHeight="150px" width="100px">
+                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handlePlay_card(card.uid)} minHeight="150px" width="100px">
                         <p>Id: {card.uid}</p>
                         <p>Cost: {card.cost}</p>
                         <p>Mechanics: {card.mechanics}</p>
@@ -285,10 +308,10 @@ export default function Game({}) {
                 flexDirection:"column",
                 position:"relative",
                 fontSize:"0.8rem",
-                padding:"0.5vw"
+                padding:"2vw"
             }}>
                 <Button onClick={()=> sendResponse("HERO_POWER")}>Hero Power</Button> 
-                <Button onClick={()=> sendResponse("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Play"}</Button>
+                <Button style={{fonColor:"red"}} onClick={()=> sendResponse("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Wait Turn"}</Button>
             </div>
         </div>
 
