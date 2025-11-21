@@ -67,40 +67,46 @@ export default function Game({}) {
 
     const handlePlay_card = (card_uid) => {
 
-        if (game_state.yourturn) {
-            console.log(`card à jouer ${card_uid}`)
+        console.log(`card à jouer ${card_uid}`)
+
+        //if(game_state.yourTurn === true) {
+
             sendResponse("PLAY", card_uid, null)
-        }
+        //}
+        
 
     }
 
     const handleAttack_card = (card_uid) => {
 
-        if (game_state.yourturn) {
+        //if (game_state.yourturn == true) {
 
             console.log(`card d'attaque ${card_uid}`)
             setSelected({...selection, type:"ATTACK"})
             setSelected({...selection, uid : card_uid})
-        }
+        //}
     }
 
     const handleOpponent_card = (card_uid) => {
 
-        if (game_state.yourturn) {
 
-            console.log(`card adverses ${card_uid}`)
+        console.log(`card adverse ${card_uid}`)
 
-            if (selection.type != null & selection.uid != null) {
+            //if(game_state.yourTurn === true) {
 
-                sendResponse("ATTACK", selection.uid, card_uid)
+                //if (selection.type != null & selection.uid != null) {
 
-                // pour reset
-                setSelected({...selection, type: null})
-                setSelected({...selection, uid: null})
-                setSelected({...selection, targetUid: 0})
+                    sendResponse("ATTACK", selection.uid, card_uid)
 
-            }
-        }
+                    // pour reset
+                    setSelected({...selection, type: null})
+                    setSelected({...selection, uid: null})
+                    setSelected({...selection, targetUid: 0})
+
+                //}
+            
+            //}
+        
     }
 
     const sendResponse = (type, uid=null, targetUid=null) => {
@@ -118,7 +124,7 @@ export default function Game({}) {
             formData.append("targetUid", targetUid)
         }
 
-        console.log("dm serveur ici")
+        console.log(`dm serveur ici: ${type}`)
 
         fetch("/api/GamePlay.php", {
             method:"POST",
@@ -130,6 +136,8 @@ export default function Game({}) {
         .then(data => {
             console.log("Tour joué")
             console.log(data)
+
+            fetchState()
             
         })
 
