@@ -144,25 +144,24 @@ export default function Game({}) {
             response = data 
             messageResponse.current = setMessage(response)
 
-            // stateTimeout.current = setTimeout()
         })
 
     }
 
-    // useEffect(()=> {
+    useEffect(()=> {
 
-    //     messageResponse.current = setMessage(response)
+        messageResponse.current = setMessage(response)
         
-    //     return () => {
+        return () => {
 
-    //         if (messageResponse.current) {
+            if (messageResponse.current) {
 
-    //             messageResponse.current = null
+                messageResponse.current = null
 
-    //         }
-    //     }
+            }
+        }
 
-    // }, [message])
+    }, [message])
 
     return <>
 
