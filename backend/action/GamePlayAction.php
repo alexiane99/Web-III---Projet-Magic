@@ -13,7 +13,6 @@
 
             $data = [];
             $result = [];
-            $invalide = False;
 
             if(!empty($_SESSION["key"])) {
 
@@ -27,9 +26,9 @@
                         $data["uid"] = $_POST["uid"];
 
                     }
-                    if (isset($_POST["targetuid"])) {
+                    if (isset($_POST["targetUid"])) {
 
-                        $data["uid"] = $_POST["uid"];
+                        $data["targetuid"] = $_POST["targetUid"];
 
                     }
 
@@ -42,7 +41,7 @@
                 }
             }
 
-            return compact("result", "invalide");
+            return compact("result");
 
         }
 

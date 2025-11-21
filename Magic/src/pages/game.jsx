@@ -11,8 +11,7 @@ export default function Game({}) {
     let key = localStorage.getItem("key")
     console.log(key)
     let stateTimeout = useRef()
-    let messageResponse = useRef()
-    let response = ""
+    let isPlaying = useRef(false)
 
     // réception du deck
     const [cards, setCards] = useState([])
@@ -29,7 +28,7 @@ export default function Game({}) {
 
     })
 
-    const [message, setMessage] = useState(["Game On"])
+    const [message, setMessage] = useState([])
 
     useEffect(() => {
 
@@ -73,17 +72,17 @@ export default function Game({}) {
 
         console.log(`card à jouer ${card_uid}`)
 
-        //if(game_state.yourTurn === true) {
+        //if(isPlaying.current == true) {
 
-           setTimeout(sendResponse("PLAY", card_uid, null), 2000)
-        //}
+           sendResponse("PLAY", card_uid, null)
+       // }
         
 
     }
 
     const handleAttack_card = (card_uid) => {
 
-        //if (game_state.yourturn == true) {
+        //if (isPlaying.current == true) {
 
             console.log(`card d'attaque ${card_uid}`)
             setSelected({...selection, type:"ATTACK"})
@@ -96,70 +95,81 @@ export default function Game({}) {
 
         console.log(`card adverse ${card_uid}`)
 
-            //if(game_state.yourTurn === true) {
+            //if (isPlaying.current == true) {
 
                 //if (selection.type != null & selection.uid != null) {
-
-                    setTimeout(sendResponse("ATTACK", selection.uid, card_uid),2000)
-
+                sendResponse("ATTACK", selection.uid, card_uid)
+                
                     // pour reset
                     setSelected({...selection, type: null})
                     setSelected({...selection, uid: null})
                     setSelected({...selection, targetUid: 0})
 
-                //}
-            
             //}
         
     }
 
     const sendResponse = (type, uid=null, targetUid=null) => {
 
-        //actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"] pour se rappeler 
+        //if (isPlaying.current == true) {
 
-        let formData = new FormData()
-        formData.append("type", type)
+            //actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"] pour se rappeler 
 
-        if (selection.uid != null) {
-            formData.append("uid", uid)
-        }
+            let formData = new FormData()
+            formData.append("type", type)
 
-        if (selection.targetUid != null) {
-            formData.append("targetUid", targetUid)
-        }
+            if (selection.uid != null) {
+                formData.append("uid", uid)
+            }
 
-        console.log(`dm serveur ici: ${type}`)
+            if (selection.targetUid != null) {
+                formData.append("targetUid", targetUid)
+            }
 
-        fetch("/api/GamePlay.php", {
-            method:"POST",
-            body: formData
-        })
-        .then(response =>
-            response.json()
-        )
-        .then(data => {
-            console.log("Tour joué")
-            console.log(data)
+            console.log(`dm serveur ici: ${type}`)
 
-            response = data 
-            messageResponse.current = setMessage(response)
+            fetch("/api/GamePlay.php", {
+                method:"POST",
+                body: formData
+            })
+            .then(response =>
+                response.json()
+            )
+            .then(data => {
 
-        })
+                console.log("Tour joué")
+                setMessage(data)
+
+                isPlaying.current = false // pour empêcher de rappeler le serveur si le tour n'est pas fini
+
+            })
+        //}
+        
 
     }
 
-    useEffect(()=> {
+    useEffect(() => {
 
-        messageResponse.current = setMessage(response)
-        
-        return () => {
+        if(game_state.yourTurn === true) {
 
-            if (messageResponse.current) {
+            isPlaying.current = true
+            console.log(isPlaying.current)
 
-                messageResponse.current = null
-
-            }
         }
+    
+    }, [isPlaying])
+
+    useEffect(() => {
+
+       if(message != null) {
+
+            console.log(message)
+       }
+
+       return (() => {
+
+            setMessage(null)
+       })
 
     }, [message])
 
@@ -318,8 +328,8 @@ export default function Game({}) {
                     backgroundColor:"white",
                     fontFamily:"BBH Sans Bartle",
                     color:"black", 
-                    }}>
-                    { message?? "Game On"}
+                }}>
+                    { [message]?? "GameOn"}
                 </div>
             </div>
             <div style={{
