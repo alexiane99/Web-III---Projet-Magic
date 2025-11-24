@@ -10,12 +10,12 @@ export default function Game({}) {
 
     let key = localStorage.getItem("key")
     console.log(key)
-    let stateTimeout = useRef()
-    let isPlaying = useRef(false)
-    let isWaiting = useRef(true)
+    let stateTimeout = useRef(null)
+    let messageTimeout = useRef()
+    let isWaiting = useRef(false)
 
     // réception du deck
-    const [cards, setCards] = useState([])
+    // const [cards, setCards] = useState([])
 
     // récupération de l'état de la partie 
     const [game_state, setGamestate] = useState({
@@ -29,38 +29,40 @@ export default function Game({}) {
 
     })
 
-    const [message, setMessage] = useState([])
+    const [message, setMessage] = useState("")
 
-    // const [isPlaying, setCurrentPlaying] = useState([false])
+   
 
-    // const [isWaiting, setWaitingStatus] = useState([false])
+    // useEffect(() => {
 
-    useEffect(() => {
-
-        fetch("/api/Deck.php", {
-            method:"POST"
-        })
-        .then(response => response.json())
-        .then(data => {
+    //     fetch("/api/Deck.php", {
+    //         method:"POST"
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
              
-            console.log(data)
-            setCards(data)
+    //         console.log(data)
+    //         setCards(data)
 
-            localStorage.setItem("cards", data)
+    //         localStorage.setItem("cards", data)
 
-        })
-    }, [])
+    //     })
+    // }, [])
 
     const fetchState = () => {
         fetch("/api/game-state.php")
         .then(response => response.json())
-        .then(response => {
+        .then(data => {
             
-            console.log(response) // <-- État du jeu, ou message comme : LAST_GAME_WON
-            setGamestate(response)
+            console.log(data) // <-- État du jeu, ou message comme : LAST_GAME_WON
+            setGamestate(data)
 
             stateTimeout.current = setTimeout(fetchState, 2000);
-            setWaitingStatus(false)
+
+            if(data?.yourTurn === true) {
+                
+                isWaiting.current = false // puisqu'on vient de recevoir la réponse du serveur, on peut remettre la réponse à vrai
+            }
         });
     }
 	
@@ -119,10 +121,9 @@ export default function Game({}) {
         
     }
 
-    // vérifie que c'est bien le tour du joueur avant d'appeler le serveur
     const verifyResponse = (type, uid=null, targetUid=null) => {
 
-        if(isPlaying.current && !isWaiting.current) {
+        if(game_state?.yourTurn == true && isWaiting.current === false) {
 
             sendResponse(type, uid, targetUid)
         }
@@ -135,7 +136,9 @@ export default function Game({}) {
 
     const sendResponse = (type, uid, targetUid) => {
 
-        //if (isPlaying.current == true) {
+        if (isWaiting.current === false) {
+
+            isWaiting.current = true // pour empêcher de rappeler le serveur si la réponse n'est pas reçue
 
             //actions = ["END_TURN", "SURRENDER","HERO_POWER", "PLAY", "ATTACK"] pour se rappeler 
 
@@ -162,48 +165,30 @@ export default function Game({}) {
             .then(data => {
 
                 console.log("Tour joué")
-                setMessage(data)
 
-                isWaiting.current = true // pour empêcher de rappeler le serveur si le tour n'est pas fini
+                if(typeof data === "string") {
+
+                    setMessage(data)
+                }
 
             })
-        //}
-        
-
-    }
-
-    const setCurrentPlaying = (status) => {
-
-        if(status) {
-            isPlaying.current = true
         }
         else {
-            isPlaying.current = false
+
+            setMessage("Attendez la réponse du serveur")
+            console.log("Attendez la réponse du serveur")
         }
-
+        
     }
-    // useEffect(() => {
-
-    //     if(game_state.yourTurn === true) {
-
-    //         isPlaying.current = true
-    //         console.log(isPlaying.current)
-
-    //     }
-    
-    // }, [isPlaying])
 
     useEffect(() => {
 
-       if(message != null) {
-
-            console.log(message)
-       }
-
-       return (() => {
-
-            setMessage(null)
-       })
+        if (message != null) {
+            messageTimeout.current = setTimeout(() => {setMessage(null)}, 3000);
+        }
+        return () => {
+            if (messageTimeout.current) clearTimeout(messageTimeout.current);
+        }
 
     }, [message])
 
@@ -398,16 +383,7 @@ export default function Game({}) {
                 <Button onClick={()=> verifyResponse("HERO_POWER")}>Hero Power</Button> 
                 <Button style={{fonColor:"red"}} onClick={()=> verifyResponse("END_TURN")}>
                 {
-                    game_state?.yourTurn === true? 
-                    <>
-                        {setCurrentPlaying(true)}
-                        {"End Turn"}
-                    </>
-                   :
-                   <>
-                        {setCurrentPlaying(false)}
-                        {"Wait Turn"}
-                    </>
+                    game_state?.yourTurn === true? "End Turn":"Wait Turn"
                 }
                 </Button>
             </div>
