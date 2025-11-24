@@ -12,6 +12,7 @@ export default function Game({}) {
     console.log(key)
     let stateTimeout = useRef()
     let isPlaying = useRef(false)
+    let isWaiting = useRef(true)
 
     // réception du deck
     const [cards, setCards] = useState([])
@@ -29,6 +30,10 @@ export default function Game({}) {
     })
 
     const [message, setMessage] = useState([])
+
+    // const [isPlaying, setCurrentPlaying] = useState([false])
+
+    // const [isWaiting, setWaitingStatus] = useState([false])
 
     useEffect(() => {
 
@@ -55,6 +60,7 @@ export default function Game({}) {
             setGamestate(response)
 
             stateTimeout.current = setTimeout(fetchState, 2000);
+            setWaitingStatus(false)
         });
     }
 	
@@ -74,7 +80,7 @@ export default function Game({}) {
 
         //if(isPlaying.current == true) {
 
-           sendResponse("PLAY", card_uid, null)
+           verifyResponse("PLAY", card_uid, null)
        // }
         
 
@@ -85,31 +91,49 @@ export default function Game({}) {
         //if (isPlaying.current == true) {
 
             console.log(`card d'attaque ${card_uid}`)
-            setSelected({...selection, type:"ATTACK"})
-            setSelected({...selection, uid : card_uid})
+            setSelected({
+                ...selection, 
+                type:"ATTACK",
+                uid:card_uid,
+            })
+           
         //}
     }
 
     const handleOpponent_card = (card_uid) => {
-
 
         console.log(`card adverse ${card_uid}`)
 
             //if (isPlaying.current == true) {
 
                 //if (selection.type != null & selection.uid != null) {
-                sendResponse("ATTACK", selection.uid, card_uid)
+                verifyResponse("ATTACK", selection.uid, card_uid)
                 
                     // pour reset
-                    setSelected({...selection, type: null})
-                    setSelected({...selection, uid: null})
-                    setSelected({...selection, targetUid: 0})
+                    setSelected({...selection, 
+                        type: null, 
+                        uid:null,
+                        targetUid:0,})
 
             //}
         
     }
 
-    const sendResponse = (type, uid=null, targetUid=null) => {
+    // vérifie que c'est bien le tour du joueur avant d'appeler le serveur
+    const verifyResponse = (type, uid=null, targetUid=null) => {
+
+        if(isPlaying.current && !isWaiting.current) {
+
+            sendResponse(type, uid, targetUid)
+        }
+        else {
+
+            setMessage("Wait response from server")
+        }
+
+    }
+
+    const sendResponse = (type, uid, targetUid) => {
 
         //if (isPlaying.current == true) {
 
@@ -118,11 +142,11 @@ export default function Game({}) {
             let formData = new FormData()
             formData.append("type", type)
 
-            if (selection.uid != null) {
+            if (uid != null) {
                 formData.append("uid", uid)
             }
 
-            if (selection.targetUid != null) {
+            if (targetUid != null) {
                 formData.append("targetUid", targetUid)
             }
 
@@ -140,7 +164,7 @@ export default function Game({}) {
                 console.log("Tour joué")
                 setMessage(data)
 
-                isPlaying.current = false // pour empêcher de rappeler le serveur si le tour n'est pas fini
+                isWaiting.current = true // pour empêcher de rappeler le serveur si le tour n'est pas fini
 
             })
         //}
@@ -148,16 +172,26 @@ export default function Game({}) {
 
     }
 
-    useEffect(() => {
+    const setCurrentPlaying = (status) => {
 
-        if(game_state.yourTurn === true) {
-
+        if(status) {
             isPlaying.current = true
-            console.log(isPlaying.current)
-
         }
+        else {
+            isPlaying.current = false
+        }
+
+    }
+    // useEffect(() => {
+
+    //     if(game_state.yourTurn === true) {
+
+    //         isPlaying.current = true
+    //         console.log(isPlaying.current)
+
+    //     }
     
-    }, [isPlaying])
+    // }, [isPlaying])
 
     useEffect(() => {
 
@@ -360,9 +394,22 @@ export default function Game({}) {
                 fontSize:"0.8rem",
                 padding:"2vw"
             }}>
-                <Button onClick={()=> sendResponse("SURRENDER")}>Surrender</Button>
-                <Button onClick={()=> sendResponse("HERO_POWER")}>Hero Power</Button> 
-                <Button style={{fonColor:"red"}} onClick={()=> sendResponse("END_TURN")}>{game_state?.yourTurn === true? "End Turn" : "Wait Turn"}</Button>
+                <Button onClick={()=> verifyResponse("SURRENDER")}>Surrender</Button>
+                <Button onClick={()=> verifyResponse("HERO_POWER")}>Hero Power</Button> 
+                <Button style={{fonColor:"red"}} onClick={()=> verifyResponse("END_TURN")}>
+                {
+                    game_state?.yourTurn === true? 
+                    <>
+                        {setCurrentPlaying(true)}
+                        {"End Turn"}
+                    </>
+                   :
+                   <>
+                        {setCurrentPlaying(false)}
+                        {"Wait Turn"}
+                    </>
+                }
+                </Button>
             </div>
         </div>
 
