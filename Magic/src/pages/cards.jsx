@@ -37,7 +37,7 @@ export default function Cards({}) {
 
                 return (
 
-                    <Carte cardUid={card.id} cardHp={card.hp} cardAtk={card.atk} cardCost={card.cost} cardMechanics={card.mechanics}>
+                    <Carte minHeight="300px" width="200px" textSize="0.5rem" infoDim="20%" cardUid={card.id} cardHp={card.hp} cardAtk={card.atk} cardCost={card.cost} cardMechanics={card.mechanics}>
                     </Carte>
 
                 )

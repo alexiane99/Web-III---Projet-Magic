@@ -4,7 +4,7 @@
 
 import {liste_cards} from "../assets/liste_images.js"; 
 
-export default function Carte({minHeight="300px", width="200px", children, cardUid, cardHp, cardAtk, cardCost, cardMechanics, onClick, color}) {
+export default function Carte({minHeight, width, children, cardUid, cardHp, cardAtk, cardCost, cardMechanics, onClick, color, textSize, infoDim}) {
 
     let background1 = liste_cards[0].path;
     let background2 = liste_cards[1].path;
@@ -46,35 +46,46 @@ export default function Carte({minHeight="300px", width="200px", children, cardU
 
     }}>
     <div className="infoCard" style={{
-        fontSize:"0.5rem",
+        fontSize: textSize,
         borderEndStartRadius:"10px",
         borderEndEndRadius:"10px",
-        paddingTop:"10px",
-        paddingLeft:"10px",
-        paddingRight:"10px",
+        padding:"5px",
         alignItems:"end",
         backgroundColor:"black", 
-        maxHeight:"20%",
+        height:infoDim,
      }}>
         <div style={{
             border:"solid 1px cyan",
             display:"flex",
             justifyContent:"space-around", 
             textAlign:"center",
+            padding:"2px",
         }}>
-            <p>Uid: {cardUid}</p>
-            <p>Hp: {cardHp}</p>
-            <p>Atk: {cardAtk}</p>
-            <p>Cost: {cardCost}</p>
+            <div style={{display:"flex", flexDirection:"column", flexWrap:"wrap"}}>
+                <div>Uid:</div>
+                <div>{cardUid}</div>
+            </div>
+            <div style={{display:"flex", flexDirection:"column"}}>
+                <div>Hp:</div>
+                <div>{cardHp}</div>
+             </div>
+            <div style={{display:"flex", flexDirection:"column"}}>
+                <div>Atk:</div>
+                <div>{cardAtk}</div>
+            </div>
+            <div style={{display:"flex", flexDirection:"column"}}>
+                <div>Cost:</div>
+                <div>{cardCost}</div>
+            </div>
         </div>
-        <p style={{
+        <div style={{
             border:"solid 1px #ff1493",
-            padding:"1px",
             textAlign:"center",
+            margin:"5px",
         }}> 
-        Mechanics: 
+        <p>Mechanics:</p>
         <p style={{color:"yellow"}}>{cardMechanics}</p>
-        </p>
+        </div>
     </div>
      {children}
     </div>

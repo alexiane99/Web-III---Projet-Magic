@@ -196,6 +196,42 @@ export default function Game({}) {
 
     <MainLayout>
     <div style={{
+
+        backgroundColor: "black",
+        color: "white",
+        fontFamily:"BBH Sans Bartle",
+        fontsize:"0.9rem",
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"top",
+        minHeight:"10vh",
+        positon:"fixed",
+
+    }}>
+    <div style={{
+        display:"flex", 
+        flexDirection:"column",
+        padding:"2vw"
+    }}>
+        <div>{game_state?.opponent?.username?? "username" }</div>
+        <div>{game_state?.opponent?.heroClass?? "heroClass" }</div>
+        <div>{game_state?.opponent?.welcomeText?? "Citation"}</div>
+        <div>HandSize: {game_state?.opponent?.handSize?? "0" }</div>
+    </div>     
+    <div style={{
+        display:"flex", 
+        justifyContent:"center", 
+        flexDirection:"column",
+        textAlign:"right",
+        padding:"2vw"
+    }}>
+        <div>Cards: {game_state?.remainingCardsCount?? "0" }</div>
+        <div>Time: {game_state?.remainingTurnTime?? "0"}</div>
+        <Button>Chat</Button>
+    </div>
+    </div>
+    <div style={{
     
         backgroundImage : `URL(${background})`, 
         backgroundRepeat: "no-repeat" , 
@@ -205,54 +241,16 @@ export default function Game({}) {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        position:"absolute",
-        width:"100%",
-        height:"100vh",     
+        width:"100%",   
         }}>
-        <div style={{
-
-            backgroundColor: "black",
-            color: "white",
-            fontFamily:"BBH Sans Bartle",
-            fontsize:"1rem",
-            display:"flex",
-            flexDirection:"row",
-            justifyContent:"space-between",
-            alignItems:"center",
-            minHeight:"10vh",
-            positon:"relative",
-
-        }}>
-        <div style={{
-            display:"flex", 
-            flexDirection:"column",
-            padding:"2vw"
-        }}>
-            <div>{game_state?.opponent?.username?? "username" }</div>
-            <div>{game_state?.opponent?.heroClass?? "heroClass" }</div>
-            <div>{game_state?.opponent?.welcomeText?? "Citation"}</div>
-            <div>HandSize: {game_state?.opponent?.handSize?? "0" }</div>
-        </div>     
-        <div style={{
-            display:"flex", 
-            justifyContent:"center", 
-            flexDirection:"column",
-            textAlign:"right",
-            padding:"2vw"
-        }}>
-            <div>Cards: {game_state?.remainingCardsCount?? "0" }</div>
-            <div>Time: {game_state?.remainingTurnTime?? "0"}</div>
-            <Button>Chat</Button>
-        </div>
-        </div>
 
         <div style={{
             display:"flex",
             flexDirection:"column",
             flexGrow:"grow",
-            justifyContent:"center",
-            minHeight:"30vh",
+            width:"100%",
             padding:"3vw",
+            position:"fixed",
         }}>
         <div style={{
 
@@ -260,6 +258,7 @@ export default function Game({}) {
                 flexDirection:"row",
                 flexWrap:"wrap",
                 justifyContent:"center",
+                padding:"1vw",
 
                 // display: "grid",
                 // grid:"1fr/1fr 1fr 1fr 1fr 1fr 1fr 1fr",
@@ -267,11 +266,18 @@ export default function Game({}) {
                 // width:"90%"
 
         }}>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
         {
             game_state?.opponent?.board?.map(card => {
 
                 return (
-                    <Carte cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="blue" onClick={() => handleOpponent_card(card.uid)} minHeight="220px" width="150px">
+                    <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="blue" onClick={() => handleOpponent_card(card.uid)}>
                     </Carte>
                 )
             })
@@ -291,11 +297,18 @@ export default function Game({}) {
                 // width:"90%"
 
         }}>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
         {
             game_state.board?.map(card => {
 
                 return (
-                    <Carte cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="yellow" onClick={() => handleAttack_card(card.uid)} minHeight="220px" width="150px">
+                    <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="yellow" onClick={() => handleAttack_card(card.uid)}>
                     </Carte>
                 )
             })
@@ -351,12 +364,20 @@ export default function Game({}) {
                 placeItems:"center",
                 width:"90%",
             }}>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="250px" width="150px" textSize="0.4rem" infoDim="20%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             {
                 game_state.hand?.map(card => {
 
                       return (
-                    <Carte cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} onClick={() => handlePlay_card(card.uid)} minHeight="150px" width="100px">
+                    <Carte minHeight="150px" width="100px" textSize="0.2rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} cardHp={card.hp} cardAtk={card.atk} onClick={() => handlePlay_card(card.uid)}>
                     </Carte>
+        
                 )
 
                 })
