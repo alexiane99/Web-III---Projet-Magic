@@ -23,6 +23,7 @@ export default function Cards({}) {
 
     return (
         <>
+        <MainLayout>
         <div style={{
             padding:"3vw",
             backgroundColor:"black",
@@ -36,16 +37,14 @@ export default function Cards({}) {
 
                 return (
 
-                    <Carte key={card.uid}>
-                        <p>Id: {card.uid}</p>
-                        <p>Cost: {card.cost}</p>
-                        <p>Mechanics: {card.mechanics}</p>
+                    <Carte cardUid={card.id} cardHp={card.hp} cardAtk={card.atk} cardCost={card.cost} cardMechanics={card.mechanics}>
                     </Carte>
 
                 )
             })
         }
         </div>
+        </MainLayout>
     
     </>
     )

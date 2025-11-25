@@ -1,42 +1,44 @@
 import MainLayout from "../layouts/main-layout";
-import Button from "../components/button"
+import Button from "../components/button";
+import {startGame} from "../components/functions/startGame";
 
 export default function Deck({}) {
 
     let key = localStorage.getItem("key")
     console.log(key)
 
-    const startGame = (e) => {
-        e.preventDefault
+    // const startGame = (e) => {
+    //     e.preventDefault
 
-        let formData = new FormData()
+    //     let formData = new FormData()
 
-        //harcode, à vérifier
-        formData.append("type", "TRAINING")
-        formData.append("mode", "STANDARD")
+    //     //harcode, à vérifier
+    //     formData.append("type", "TRAINING")
+    //     formData.append("mode", "STANDARD")
 
-        fetch("/api/gamemode.php", {
-            method:"POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
+    //     fetch("/api/gamemode.php", {
+    //         method:"POST",
+    //         body: formData
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
 
-            console.log(data);
+    //         console.log(data);
 
-            if(data == "JOINED_PVP" || data == "JOINED_TRAINING") {
+    //         if(data == "JOINED_PVP" || data == "JOINED_TRAINING") {
 
-                window.location.href = "/game"
+    //             window.location.href = "/game"
 
-            }
+    //         }
 
-        })
+    //     })
     
-    }
+    // }
 
 
      return <>
 
+    <MainLayout>
     <div style={{
 
         display: "flex", 
@@ -58,6 +60,6 @@ export default function Deck({}) {
            </div>
 
     </div>
-     
+    </MainLayout>
     </>
 } 

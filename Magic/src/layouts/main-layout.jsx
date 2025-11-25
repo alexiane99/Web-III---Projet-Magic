@@ -1,4 +1,5 @@
 import {NavLink} from "react-router"
+import { handleLogoutProgram } from "../components/functions/loggout"
 import '../css/global.css'
 
 export default function MainLayout({children}) {
@@ -13,7 +14,7 @@ export default function MainLayout({children}) {
             <NavLink to="/game">Game</NavLink>
             <NavLink to="/cards">Cards</NavLink>
             <NavLink to="/infos">Infos</NavLink>
-            <NavLink to="/">Loggout</NavLink>
+            <NavLink to="/" onClick={handleLogoutProgram}>Loggout</NavLink>
         </nav>
         <main>{children}</main>
         <footer></footer>

@@ -1,5 +1,5 @@
 
-export default function startGame() {
+export function startGame() {
 
     let formData = new FormData()
 

@@ -271,10 +271,7 @@ export default function Game({}) {
             game_state?.opponent?.board?.map(card => {
 
                 return (
-                    <Carte key={card.uid} cardUId={card.uid} color="blue" onClick={() => handleOpponent_card(card.uid)} minHeight="220px" width="150px">
-                        <p>Id: {card.uid}</p>
-                        <p>Cost: {card.cost}</p>
-                        <p>Mechanics: {card.mechanics}</p>
+                    <Carte cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="blue" onClick={() => handleOpponent_card(card.uid)} minHeight="220px" width="150px">
                     </Carte>
                 )
             })
@@ -298,10 +295,7 @@ export default function Game({}) {
             game_state.board?.map(card => {
 
                 return (
-                    <Carte key={card.uid} cardUId={card.uid} color="yellow" onClick={() => handleAttack_card(card.uid)} minHeight="220px" width="150px">
-                        <p>Id: {card.uid}</p>
-                        <p>Cost: {card.cost}</p>
-                        <p>Mechanics: {card.mechanics}</p>
+                    <Carte cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="yellow" onClick={() => handleAttack_card(card.uid)} minHeight="220px" width="150px">
                     </Carte>
                 )
             })
@@ -361,10 +355,7 @@ export default function Game({}) {
                 game_state.hand?.map(card => {
 
                       return (
-                    <Carte key={card.uid} cardUId={card.uid} onClick={() => handlePlay_card(card.uid)} minHeight="150px" width="100px">
-                        <p>Id: {card.uid}</p>
-                        <p>Cost: {card.cost}</p>
-                        <p>Mechanics: {card.mechanics}</p>
+                    <Carte cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} onClick={() => handlePlay_card(card.uid)} minHeight="150px" width="100px">
                     </Carte>
                 )
 
