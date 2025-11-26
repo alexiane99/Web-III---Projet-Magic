@@ -36,3 +36,20 @@
 
 /* https://medium.com/@alexanie_/navlink-component-in-react-router-b83f4a11794f */
 
+.nav a {
+
+  display:flex; 
+  padding:2vw; 
+  justify-content:center; 
+  align-items: center;
+  text-decoration: none;
+  color:white;
+
+}
+.nav a.active {
+  color:red;
+}
+.nav a:hover {
+  background-color: grey;
+  transform:scale(1.1);
+}

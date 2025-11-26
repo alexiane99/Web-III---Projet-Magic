@@ -5,23 +5,19 @@ import { startGame } from "../components/functions/startGame"
 import '../css/global.css'
 
 export default function MainLayout({children}) {
-
-    const isActive = useRef(false)
-    
-    const colorStyle = isActive? "red" : "cyan"
     
     return (
         <>
         <header></header>
-        <nav style={{
+        <nav className="nav" style={{
             fontFamily:"BBH Sans Bartle", 
             display:"flex", 
             justifyContent:"space-between",
             backgroundColor:"black",
-            padding:"2vw",
+            
             }}>
             {/* temporaire, juste pour avoir accès plsu facilement aux tables */}
-            <NavLink to="/lobby" onClick={()=> isActive.current = true} style={{color:colorStyle}}>Lobby</NavLink>
+            <NavLink to="/lobby">Lobby</NavLink>
             <NavLink to="/deck">Deck</NavLink>
             <NavLink to="/game" onClick={startGame}>Game</NavLink>
             <NavLink to="/cards">Cards</NavLink>
