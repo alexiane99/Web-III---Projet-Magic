@@ -25,7 +25,7 @@ export default function Carte({minHeight, width, children, cardUid, cardHp, card
         background = background3
     }
 
-    return <div className="carte" onClick={onClick} style={{
+    return <div className="carte" onClick={onClick} style={{ // className="carte" 
         backgroundImage : `url(${background})`, //`url(${background})`, 
         margin: "1vw",
         display:"flex", 

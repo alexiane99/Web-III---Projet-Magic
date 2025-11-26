@@ -2,6 +2,9 @@ import MainLayout from "../layouts/main-layout";
 import background from "../assets/img/rooftop_bar.jpg";
 import {useRef, useEffect, useState} from "react" 
 import Button from "../components/button"
+import { styles } from "../components/functions/openchat";
+import chatBox from "../components/chatBox";
+
 
 export default function Lobby({}) {
 
@@ -15,25 +18,6 @@ const chatRef = useRef(null);
     })
 
     const applyStyles = () => {
-
-        let styles = {
-
-            fontColor : "white",
-            backgroundColor : "black",
-            fontGoogleName:"Rock Salt", 
-            fontSize : "15px",
-            hideIcons : false, // (or true),
-            inputBackgroundColor : "#f1f1f1",
-            inputFontColor : "black",
-            width:"750px",
-            height : "500px",
-            padding: "5px",
-            memberListFontColor : "#ff00dd",
-            borderColor : "blue",
-            memberListBackgroundColor : "white",
-            hideScrollBar: true, // pour cacher le scroll bar
-
-        }
 
         setTimeout(() => {
 
