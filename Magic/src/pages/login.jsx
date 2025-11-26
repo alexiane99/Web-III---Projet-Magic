@@ -24,6 +24,10 @@ export default function Login({}) {
 
   }); 
 
+  const [animate, setAnimation] = useState(true)
+
+  const transformAnimation = animate? "rotateY(360deg) translateY(400px)" : "rotateY(0deg)"
+
   // const [userName, setUserName] = useState(null)
 
 
@@ -87,7 +91,7 @@ export default function Login({}) {
 
  
   return  <>
-            <div style={{
+            <div className="backgroundSet" style={{
                 backgroundImage : `URL(${background})`, 
                 backgroundRepeat: "no-repeat" , 
                 backgroundSize : "cover", 
@@ -99,23 +103,29 @@ export default function Login({}) {
               <div style={{
 
                 display: "flex",
+                heigth:"100vh",
                 justifyContent: "center",
+                alignItems:"flex-start",
                
               }}>
-                <div style={{
-                          
+                <div style={{backgroundColor:"black",
+                  transform:transformAnimation,
+                  transition:"4s",
+                }}>  
+                <div onClick={()=>setAnimation(false)} style={{ 
+
+                  // onMouseEnter={()=> setAnimation(!animate)} 
                   backgroundColor : "black",
+                  border:"solid 1px #ff1493",
                   color: "white",
+                  margin:"2vw",
                  
                 }}>
                 <form action="login.jsx" method="post" type="submit" onSubmit={e => handleLoginProgram(e)}>
                     <div style={{
                       margin : "2vw",
-                      fontSize : "1.2vw",
+                      fontSize : "1.5vw",
                       fontFamily : "BBH Sans Bartle",
-                      
-                     
-
                     }}>
                     <h1 style={{ color : "white", textAlign : "center"}}>Connexion</h1>
                     <div style={{margin : "2vw"}}>
@@ -135,7 +145,7 @@ export default function Login({}) {
                     </div>
                   </div>
                 </form>
-                </div>
+                </div></div>
               </div>
             </div>
           </>
