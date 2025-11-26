@@ -4,6 +4,7 @@ import {useRef, useEffect, useState} from "react"
 import Button from "../components/button"
 import { styles } from "../components/functions/openchat";
 import chatBox from "../components/chatBox";
+import AutoplayVideo from "../components/autoplayVideo";
 
 
 export default function Lobby({}) {
@@ -89,19 +90,20 @@ const chatRef = useRef(null);
 return  <>
 
     <MainLayout>
+
     <div style={{
 
-                backgroundImage : `URL(${background})`, 
-                backgroundRepeat: "no-repeat" , 
-                backgroundSize : "cover", 
-                height: "100vh",
-                backgroundPosition: "bottom-center", 
-                overflow: "hidden",
-                display:"flex",
-                justifyContent:"center"
+        backgroundImage : `URL(${background})`, 
+        backgroundRepeat: "no-repeat" , 
+        backgroundSize : "cover", 
+        height: "100vh",
+        backgroundPosition: "bottom-center", 
+        overflow: "hidden",
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center"
                 
-    }}> 
-
+    }}>
     <div style={{
 
         margin: "2vw",
@@ -125,13 +127,13 @@ return  <>
         <Button style={{position:"relative"}} onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
         </div>
     </div>
-
     <div style={{
 
            position:"absolute",
            bottom:"0",
            right:"0",
            overflow:"hidden",
+           zIndex:"1",
          
 
         }}>
@@ -143,7 +145,6 @@ return  <>
         </div>
         
     </div>
-
     </MainLayout>
     </>
 }
