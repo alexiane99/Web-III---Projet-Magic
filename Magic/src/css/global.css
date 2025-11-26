@@ -36,12 +36,3 @@
 
 /* https://medium.com/@alexanie_/navlink-component-in-react-router-b83f4a11794f */
 
-.navbar ul a.active {
-
-  color:purple,
-
-}
-.navbar ul a.hover {
-
-  color:cyan,
-}
