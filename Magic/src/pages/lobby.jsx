@@ -3,13 +3,14 @@ import background from "../assets/img/rooftop_bar.jpg";
 import {useRef, useEffect, useState} from "react" 
 import Button from "../components/button"
 import { styles } from "../components/functions/openchat";
-import chatBox from "../components/chatBox";
+import ChatBox from "../components/chatBox";
 import AutoplayVideo from "../components/autoplayVideo";
+import video from "../assets/NCTU_Teaser_TAEYONG.mp4"; 
 
 
 export default function Lobby({}) {
 
-const chatRef = useRef(null); 
+// const chatRef = useRef(null); 
 
     let key = localStorage.getItem("key")
     console.log(key)
@@ -17,14 +18,6 @@ const chatRef = useRef(null);
     const [gameMode, setGameMode] = useState ({
         mode : ""
     })
-
-    const applyStyles = () => {
-
-        setTimeout(() => {
-
-            chatRef.current.contentWindow.postMessage(JSON.stringify(styles), "*");
-        }, 100);
-    }
 
     useEffect(() => { }) // useEffect pour vérifier si connecté, sinon redirigé vers index
 
@@ -44,12 +37,6 @@ const chatRef = useRef(null);
         })
 
     }; 
-
-    const setDeck = (e) => {
-        e.preventDefault
-
-        window.location.href = "/deck"
-    }
 
     const setGameplayMode = (mode) => {
 
@@ -90,7 +77,6 @@ const chatRef = useRef(null);
 return  <>
 
     <MainLayout>
-
     <div style={{
 
         backgroundImage : `URL(${background})`, 
@@ -101,48 +87,49 @@ return  <>
         overflow: "hidden",
         display:"flex",
         flexDirection:"row",
-        justifyContent:"center"
                 
     }}>
     <div style={{
-
         margin: "2vw",
         padding: "2vw",
         display: "flex", 
-        justifyContent: "center",
         flexDirection: "column",
+        justifyContent:"center",
         backgroundColor: "black", 
-        border:"solid 3px white",
+        border:"solid 2px #ff1493",
         color: "white",
         fontFamily : "BBH Sans Bartle",
-        fontSize: "1.7vw",
-        height: "20vh",
+        fontSize: "2vw",
         position:"relative",
+        height:"80%",
     }}>
-        <div style={{ display:"flex", position:"relative", justifyContent: "center"}}>
-        <h2 style={{ padding: "1.5vw"}}>Ready?</h2>
-        <Button style={{position:"relative"}} onClick={() => setGameplayMode("PVP")}>Play Game</Button>
-        <Button style={{position:"relative"}} onClick={e=> setDeck(e)}>Deck</Button>
-        <Button style={{position:"relative"}} onClick={() => setGameplayMode("TRAINING")}>Practice</Button>
-        <Button style={{position:"relative"}} onClick={e => handleLogoutProgram(e)}>Quit Game</Button>
-        </div>
+        <h2 style={{position:"relative", padding: "1vw", textAlign:"center"}}>Ready?</h2>
+        <Button style={{position:"relative"}} onClick={() => setGameplayMode("PVP")}>Player Vs Mode</Button>
+        <Button style={{position:"relative"}} onClick={() => setGameplayMode("TRAINING")}>Training Mode</Button>
     </div>
     <div style={{
-
-           position:"absolute",
-           bottom:"0",
-           right:"0",
-           overflow:"hidden",
-           zIndex:"1",
-         
-
+        display:"flex",
+        flexDirection:"column",
+        margin:"2vw",
+        padding:"2vw",
         }}>
 
         {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
         {/* pour utilise ${ } dans une string, on utilise ` `         */}
-        <iframe ref={chatRef} border-radius="50px" width={750} height={500} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe> 
-        
-        </div>
+        {/* <iframe ref={chatRef} border-radius="50px" width={750} height={500} onLoad={applyStyles} src={`https://magix.apps-de-cours.com/server/chat/${key}`}></iframe>  */}
+       
+        {/* <video autoPlay loop muted style={{
+                   width:"80%", 
+                   height:"80%",
+                   objectFit:"cover",
+                   objectPosition:"center",
+               }}>
+                <source src={video} type="video/mp4"></source>
+        </video> */}
+        <AutoplayVideo></AutoplayVideo>
+        <ChatBox></ChatBox>
+
+    </div>
         
     </div>
     </MainLayout>

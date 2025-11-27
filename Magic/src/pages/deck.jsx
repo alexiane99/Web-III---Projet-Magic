@@ -56,7 +56,8 @@ export default function Deck({}) {
                 fontFamily : "BBH Sans Bartle", 
                 fontSize: "2vw"
            }}>
-                <Button onClick={e=>startGame(e)}>Start Game</Button>
+                <Button onClick={()=>startGame("TRAINING")}>Start Game</Button>
+
            </div>
 
     </div>
