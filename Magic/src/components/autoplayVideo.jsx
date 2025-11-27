@@ -1,4 +1,5 @@
 import video from "../assets/NCTU_Teaser_TAEYONG.mp4"; 
+import gif from "../assets/gif/taeyong.gif";
 
 export default function AutoplayVideo() {
 
@@ -13,7 +14,8 @@ export default function AutoplayVideo() {
         // position:"relative",
         zIndex:"1",
     }}>
-        <video autoPlay loop muted style={{
+        <img src={gif} style={{height:"100%"}}></img>
+        {/* <video autoPlay loop muted style={{
             width:"70%", 
             height:"70%",
             objectFit:"cover",
@@ -21,7 +23,7 @@ export default function AutoplayVideo() {
             position:"relative"
         }}>
             <source src={video} type="video/mp4"></source>
-        </video>
+        </video> */}
     </div>
     )
 }

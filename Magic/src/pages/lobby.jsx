@@ -6,6 +6,7 @@ import { styles } from "../components/functions/openchat";
 import ChatBox from "../components/chatBox";
 import AutoplayVideo from "../components/autoplayVideo";
 import video from "../assets/NCTU_Teaser_TAEYONG.mp4"; 
+import Carousel from "../components/carousel";
 
 
 export default function Lobby({}) {
@@ -18,6 +19,9 @@ export default function Lobby({}) {
     const [gameMode, setGameMode] = useState ({
         mode : ""
     })
+
+    const [animate, setAnimation] = useState(false)
+    const transformAnimation = animate? "rotate(360deg)" : "rotate(0deg)"
 
     useEffect(() => { }) // useEffect pour vérifier si connecté, sinon redirigé vers index
 
@@ -110,8 +114,6 @@ return  <>
     <div style={{
         display:"flex",
         flexDirection:"column",
-        margin:"2vw",
-        padding:"2vw",
         }}>
 
         {/* on utilise { } pour les valeurs dynamiques (variables, fonction, expression), qui ne sont pas du html*/}
@@ -126,8 +128,8 @@ return  <>
                }}>
                 <source src={video} type="video/mp4"></source>
         </video> */}
-        <AutoplayVideo></AutoplayVideo>
-        <ChatBox></ChatBox>
+        <Carousel onClick={()=> setAnimation(!animate)} style={{transform:transformAnimation}}></Carousel>
+        {/* <ChatBox></ChatBox> */}
 
     </div>
         

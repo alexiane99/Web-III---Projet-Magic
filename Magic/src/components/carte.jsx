@@ -2,7 +2,7 @@
 // import boardcard from "../assets/img/Taeyang.jpg"; 
 // import handcard from "../assets/img/G-Dragon.jpg";
 
-import {liste_cards} from "../assets/liste_images.js"; 
+import {liste_cards} from "../data/liste_card" 
 
 export default function Carte({minHeight, width, children, cardUid, cardHp, cardAtk, cardCost, cardMechanics, onClick, color, textSize, infoDim}) {
 
