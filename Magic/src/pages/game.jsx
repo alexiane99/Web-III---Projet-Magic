@@ -5,10 +5,12 @@ import Carte from "../components/carte";
 import Profile from "../components/profile";
 import {useEffect, useState, useRef} from "react"; 
 import Button from "../components/button";
+import { startGame } from "../components/functions/startGame";
 
 export default function Game({}) {
 
     let key = localStorage.getItem("key")
+    let gametype = localStorage.getItem("gametype")
     console.log(key)
     let stateTimeout = useRef(null)
     let messageTimeout = useRef()
@@ -53,43 +55,43 @@ export default function Game({}) {
 
             return (
 
-            <div className="GameEnd" style={{
-                display:"flex",
-                backgroundColor:"black", 
-                height:"500px",
-                width:"700px",
-                color:"white", 
-                zIndex:"10",
-                justifyContent:"center", 
-                fontFamily:"BBH Sans Bartle",
-                textAlign:"center", 
-                position:"fixed",
-                top:"50%", 
-                left:"50%",
-                transform:"translateX(-50%) translateY(-50%)",
+                <div className="GameEnd" style={{
+                        display:"flex",
+                        backgroundColor:"black", 
+                        height:"500px",
+                        width:"700px",
+                        color:"white", 
+                        zIndex:"10",
+                        justifyContent:"center", 
+                        fontFamily:"BBH Sans Bartle",
+                        textAlign:"center", 
+                        position:"fixed",
+                        top:"50%", 
+                        left:"50%",
+                        transform:"translateX(-50%) translateY(-50%)",
 
-            }}>
-            <div style={{
-                    backgroundColor : "black",
-                    border:"solid 1px #ff1493",
-                    color: "white",
-                    margin:"2vw",
-                    padding:"2vw",
-                    width:"100%",
-            }}>
-                <h1>{title}</h1>
-                <div style={{
-                    display:"flex",
-                    flexDirection:"column",
-                    justifyContent:"center",
-                    padding:"5vw",
-                    marginTop:"4vw"}}>
-                    <Button>Start Again</Button>
-                    <Button>Quit</Button>
-                </div>
-            
-            </div>
-            </div>
+                    }}>
+                    <div style={{
+                            backgroundColor : "black",
+                            border:"solid 1px #ff1493",
+                            color: "white",
+                            margin:"2vw",
+                            padding:"2vw",
+                            width:"100%",
+                    }}>
+                        <h1>{endTitle.lost}</h1>
+                        <div style={{
+                            display:"flex",
+                            flexDirection:"column",
+                            justifyContent:"center",
+                            padding:"5vw",
+                            marginTop:"4vw"}}>
+                            <Button onClick={()=> startGame(gametype)}>Start Again</Button>
+                            <Button onClick={()=> window.location.href = "/lobby"}>Quit</Button>
+                        </div>
+                    
+                    </div>
+                    </div>
             )
         }
 
@@ -110,6 +112,56 @@ export default function Game({}) {
 
     //     })
     // }, [])
+
+    const startGame = (gametype) => {
+
+        console.log(gametype)
+        
+        let formData = new FormData()
+
+        if(gametype === "PVP") {
+            gametype = "PVP"
+        }
+        
+        if(gametype === "TRAINING") {
+            gametype = "TRAINING"
+        }
+
+        //harcode, à vérifier
+        formData.append("type", gametype)
+        // formData.append("mode", "STANDARD")
+
+        fetch("/api/GameMode.php", {
+            method:"POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+
+        if(typeof data === "string") {
+
+            if(data === "JOINED_PVP" || data === "JOINED_TRAINING") {
+
+                if(data === "JOINED_PVP") {
+
+                    gametype = "PVP"
+                       
+                }
+                
+                if(data === "JOINED_TRAINING") {
+
+                    gametype = "TRAINING"
+                    localStorage.setItem("gametype", gametype) 
+                }
+
+                window.location.href = "/game"
+            }
+        }
+
+        })
+    }
 
     const fetchState = () => {
         fetch("/api/game-state.php")
@@ -137,7 +189,6 @@ export default function Game({}) {
                 gameEnd.current = true
             
             }
-
         }
        
             stateTimeout.current = setTimeout(fetchState, 2000);
@@ -244,7 +295,6 @@ export default function Game({}) {
 
             setMessage("Wait response from server")
         }
-
     }
 
     const sendResponse = (type, uid, targetUid) => {
@@ -554,50 +604,15 @@ export default function Game({}) {
             }
             </div>
             { 
-                
-                gameEnd.current === true? 
+                gameEnd.current === true?  
 
-                <div className="GameEnd" style={{
-                    display:"flex",
-                    backgroundColor:"black", 
-                    height:"500px",
-                    width:"700px",
-                    color:"white", 
-                    zIndex:"10",
-                    justifyContent:"center", 
-                    fontFamily:"BBH Sans Bartle",
-                    textAlign:"center", 
-                    position:"fixed",
-                    top:"50%", 
-                    left:"50%",
-                    transform:"translateX(-50%) translateY(-50%)",
-
-                }}>
-                <div style={{
-                        backgroundColor : "black",
-                        border:"solid 1px #ff1493",
-                        color: "white",
-                        margin:"2vw",
-                        padding:"2vw",
-                        width:"100%",
-                }}>
-                    <h1>{endTitle.lost}</h1>
-                    <div style={{
-                        display:"flex",
-                        flexDirection:"column",
-                        justifyContent:"center",
-                        padding:"5vw",
-                        marginTop:"4vw"}}>
-                        <Button>Start Again</Button>
-                        <Button>Quit</Button>
-                    </div>
-                
-                </div>
-                </div>
-
+                    showEndGame(endTitle.surrender)
+                    
                 :
 
-                null
+                gameEnd.current = false 
+
+  
             }
             <div style={{
                 display:"flex",

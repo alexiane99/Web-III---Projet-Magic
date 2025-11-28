@@ -61,9 +61,28 @@ export default function Lobby({}) {
 
             console.log(data) 
 
-            if(data == "JOINED_PVP" || data == "JOINED_TRAINING") {
+            if(typeof data === "string") {
 
-            window.location.href = "/game"
+                if(data === "JOINED_PVP" || data === "JOINED_TRAINING") {
+
+                    let gametype = null 
+
+                    if(data === "JOINED_PVP") {
+
+                        gametype = "PVP"
+                        localStorage.setItem("gametype", gametype) 
+
+                    }
+                
+                    if(data === "JOINED_TRAINING") {
+
+                        gametype = "TRAINING"
+                        localStorage.setItem("gametype", gametype) 
+                    }
+
+                window.location.href = "/game"
+            
+            }
 
         }
         })

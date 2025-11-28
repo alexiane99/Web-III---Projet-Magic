@@ -1,6 +1,8 @@
 
 export function startGame({type}) {
 
+    console.log(type)
+    
     let formData = new FormData()
 
     if(type === "PVP") {
@@ -15,7 +17,7 @@ export function startGame({type}) {
     formData.append("type", type)
     // formData.append("mode", "STANDARD")
 
-    fetch("/api/gamemode.php", {
+    fetch("/api/GameMode.php", {
         method:"POST",
         body: formData
     })
