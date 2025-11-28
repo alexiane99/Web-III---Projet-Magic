@@ -18,10 +18,16 @@ export default function Game({}) {
     let canCharge = useRef(false)
     let isHeroPower = useRef(true)
     const heroColor = isHeroPower === true? "blue" : "grey"
+    let surrender = useRef(false)
     let colorCard = null
-
     const colorTaunt = isTaunt.current === true? "yellow" : "white"
     const colorCharge = canCharge.current === true? "cyan" : "white"
+    let gameEnd = useRef(false)
+    const [endTitle, setEndTitle] = useState({
+        lost:"Game Over", 
+        won: "Congratulations! You won",
+        surrender:"You surrender! Victory for your opponent!"
+    })
 
 
     // réception du deck
@@ -41,24 +47,26 @@ export default function Game({}) {
 
     const [message, setMessage] = useState("")
 
-    const showEndGame = (ending) => {
+    const showEndGame = (title) => {
 
-         return(
+        if (gameEnd.current === true) {
 
-            <div className="Game Over" style={{
-            display:"flex",
-            backgroundColor:"black", 
-            height:"500px",
-            width:"700px",
-            color:"white", 
-            zIndex:"10",
-            justifyContent:"center", 
-            fontFamily:"BBH Sans Bartle",
-            textAlign:"center", 
-            position:"fixed",
-            top:"50%", 
-            left:"50%",
-            transform:"translateX(-50%) translateY(-50%)",
+            return (
+
+            <div className="GameEnd" style={{
+                display:"flex",
+                backgroundColor:"black", 
+                height:"500px",
+                width:"700px",
+                color:"white", 
+                zIndex:"10",
+                justifyContent:"center", 
+                fontFamily:"BBH Sans Bartle",
+                textAlign:"center", 
+                position:"fixed",
+                top:"50%", 
+                left:"50%",
+                transform:"translateX(-50%) translateY(-50%)",
 
             }}>
             <div style={{
@@ -69,17 +77,22 @@ export default function Game({}) {
                     padding:"2vw",
                     width:"100%",
             }}>
-                <h1> Game Over </h1>
+                <h1>{title}</h1>
                 <div style={{
                     display:"flex",
                     flexDirection:"column",
-                    marginTop:"6vw"}}>
+                    justifyContent:"center",
+                    padding:"5vw",
+                    marginTop:"4vw"}}>
                     <Button>Start Again</Button>
                     <Button>Quit</Button>
                 </div>
-                </div>
-                </div>
+            
+            </div>
+            </div>
             )
+        }
+
     }
 
     // useEffect(() => {
@@ -103,19 +116,32 @@ export default function Game({}) {
         .then(response => response.json())
         .then(data => {
             
-            console.log(data) // <-- État du jeu, ou message comme : LAST_GAME_WON
-            setGamestate(data)
+        console.log(data) // <-- État du jeu, ou message comme : LAST_GAME_WON
 
+        setGamestate(data)
+
+        if (data?.yourTurn === true) {
+                
+            isWaiting.current = false // puisqu'on vient de recevoir la réponse du serveur, on peut remettre la réponse à vrai
+        }
+
+        if(typeof data !== "object") {
+    
+            if (data === "LAST_GAME_WON") {
+
+                gameEnd.current = true 
+                
+            }
+            else if (data === "LAST_GAME_LOST") {
+
+                gameEnd.current = true
+            
+            }
+
+        }
+       
             stateTimeout.current = setTimeout(fetchState, 2000);
 
-            if(data?.yourTurn === true) {
-                
-                isWaiting.current = false // puisqu'on vient de recevoir la réponse du serveur, on peut remettre la réponse à vrai
-            }
-
-            if (data == "LAST_GAME_WON" || data == "LAST_GAME_LOST") {
-
-            }
         });
     }
 	
@@ -162,7 +188,6 @@ export default function Game({}) {
            verifyResponse("PLAY", card_uid, null)
        // }
         
-
     }
 
     const handleAttack_card = (card_uid) => {
@@ -205,6 +230,15 @@ export default function Game({}) {
             sendResponse(type, uid, targetUid)
 
             setMessage(type)
+        }
+        else if(type === "SURRENDER") {
+
+            surrender.current = true
+            console.log("surrender")
+
+            gameEnd.current = true
+              
+
         }
         else {
 
@@ -273,7 +307,7 @@ export default function Game({}) {
 
     return <>
 
-    {/* <MainLayout> */}
+    <MainLayout>
     <div style={{
 
         backgroundColor: "black",
@@ -301,13 +335,13 @@ export default function Game({}) {
         <div style={{padding:"0.5vw"}}>{game_state?.opponent?.welcomeText?? "Citation"}</div>
     </div>  
     <div style={{display:"flex", flexDirection:"row"}}>
+        {/* <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
         <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
         <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
         <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
         <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
         <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div>  */}
         {
             Array.from({lenght: game_state?.opponent?.handSize?? 0}).map((card, index) => 
                 <div key={index} style={{height:"5vw", width:"3.5vw", backgroundColor:"#cc8899", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
@@ -377,23 +411,23 @@ export default function Game({}) {
                 padding:"1vw",
 
         }}>
-            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+        {/* <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-        {/* {
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte> */}
+        {
             game_state?.opponent?.board?.map((card, index) => {
 
                 return (
-                    <Carte key={index} minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={null} color="blue" onClick={() => handleOpponent_card(card.uid)}>
+                    <Carte key={index} minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={card.uid} cardCost={card.cost} cardMechanics={null} color="blue" onClick={() => handleOpponent_card(card.uid)}>
                     </Carte>
                 )
             })
                 
-        } */}
+        }
         </div>
         <div style={{
 
@@ -419,13 +453,13 @@ export default function Game({}) {
             {/* </div> */}
             {/* </div> */}
             
-            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            {/* <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-        {/* {
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte> */}
+        {
             game_state.board?.map((card, index) => {
 
                 card.mechanics.map((ele, index) => {
@@ -446,50 +480,16 @@ export default function Game({}) {
                 return (
 
                     
-                    <Carte key={index} minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color={colorCard} onClick={() => handleAttack_card(card.uid)}>
+                    <Carte key={index} minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color={colorCard} onClick={() => handleAttack_card(card.uid)}>
                     </Carte>
                 )
             }) 
         }
-             */}
-          
+            
         </div>
         </div>
-        <div className="Game Over" style={{
-            display:"flex",
-            backgroundColor:"black", 
-            height:"500px",
-            width:"700px",
-            color:"white", 
-            zIndex:"10",
-            justifyContent:"center", 
-            fontFamily:"BBH Sans Bartle",
-            textAlign:"center", 
-            position:"fixed",
-            top:"50%", 
-            left:"50%",
-            transform:"translateX(-50%) translateY(-50%)",
 
-        }}>
-        <div style={{
-                backgroundColor : "black",
-                border:"solid 1px #ff1493",
-                color: "white",
-                margin:"2vw",
-                padding:"2vw",
-                width:"100%",
-        }}>
-            <h1> Game Over </h1>
-            <div style={{
-                display:"flex",
-                flexDirection:"column",
-                marginTop:"6vw"}}>
-                <Button>Start Again</Button>
-                <Button>Quit</Button>
-            </div>
-          
-        </div>
-        </div>
+
         <div style={{
 
             backgroundColor: "black",
@@ -522,14 +522,14 @@ export default function Game({}) {
                 // placeItems:"center",
                 width:"90%",
             }}>
-                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                {/* <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
                 <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
                 <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
                 <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
                 <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
                 <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-            {/* {
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte> */}
+            {
                 game_state.hand?.map((card, index) => {
 
                     card.mechanics.map((ele, index) => {
@@ -544,16 +544,61 @@ export default function Game({}) {
                     }
                 })
 
-                      return (
-                    <Carte key={index} minHeight="230px" width="130px" textSize="0.3rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} cardHp={card.hp} cardAtk={card.atk} color={colorCard} onClick={() => handlePlay_card(card.uid)}>
+                    return (
+                    <Carte key={index} minHeight="180px" width="100px" textSize="0.3rem" infoDim="20%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} cardHp={card.hp} cardAtk={card.atk} color={colorCard} onClick={() => handlePlay_card(card.uid)}>
                     </Carte>
         
                 )
 
                 })
-            } */}
-            
+            }
             </div>
+            { 
+                
+                gameEnd.current === true? 
+
+                <div className="GameEnd" style={{
+                    display:"flex",
+                    backgroundColor:"black", 
+                    height:"500px",
+                    width:"700px",
+                    color:"white", 
+                    zIndex:"10",
+                    justifyContent:"center", 
+                    fontFamily:"BBH Sans Bartle",
+                    textAlign:"center", 
+                    position:"fixed",
+                    top:"50%", 
+                    left:"50%",
+                    transform:"translateX(-50%) translateY(-50%)",
+
+                }}>
+                <div style={{
+                        backgroundColor : "black",
+                        border:"solid 1px #ff1493",
+                        color: "white",
+                        margin:"2vw",
+                        padding:"2vw",
+                        width:"100%",
+                }}>
+                    <h1>{endTitle.lost}</h1>
+                    <div style={{
+                        display:"flex",
+                        flexDirection:"column",
+                        justifyContent:"center",
+                        padding:"5vw",
+                        marginTop:"4vw"}}>
+                        <Button>Start Again</Button>
+                        <Button>Quit</Button>
+                    </div>
+                
+                </div>
+                </div>
+
+                :
+
+                null
+            }
             <div style={{
                 display:"flex",
                 flexDirection:"column",
@@ -573,8 +618,8 @@ export default function Game({}) {
         </div>
 
     </div>
-{/*     
-    </MainLayout> */}
+    
+    </MainLayout>
     </>
 
 }
