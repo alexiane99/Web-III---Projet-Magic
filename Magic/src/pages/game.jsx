@@ -1,5 +1,5 @@
 import MainLayout from "../layouts/main-layout";
-import background from "../assets/img/stage_wallpaper.jpg";
+import background from "../assets/img/background_scene.png";
 
 import Carte from "../components/carte";
 import Profile from "../components/profile";
@@ -14,6 +14,15 @@ export default function Game({}) {
     let messageTimeout = useRef()
     let isWaiting = useRef(false)
     let isGlowing = useRef(false)
+    let isTaunt = useRef(false)
+    let canCharge = useRef(false)
+    let isHeroPower = useRef(true)
+    const heroColor = isHeroPower === true? "blue" : "grey"
+    let colorCard = null
+
+    const colorTaunt = isTaunt.current === true? "yellow" : "white"
+    const colorCharge = canCharge.current === true? "cyan" : "white"
+
 
     // réception du deck
     // const [cards, setCards] = useState([])
@@ -32,6 +41,46 @@ export default function Game({}) {
 
     const [message, setMessage] = useState("")
 
+    const showEndGame = (ending) => {
+
+         return(
+
+            <div className="Game Over" style={{
+            display:"flex",
+            backgroundColor:"black", 
+            height:"500px",
+            width:"700px",
+            color:"white", 
+            zIndex:"10",
+            justifyContent:"center", 
+            fontFamily:"BBH Sans Bartle",
+            textAlign:"center", 
+            position:"fixed",
+            top:"50%", 
+            left:"50%",
+            transform:"translateX(-50%) translateY(-50%)",
+
+            }}>
+            <div style={{
+                    backgroundColor : "black",
+                    border:"solid 1px #ff1493",
+                    color: "white",
+                    margin:"2vw",
+                    padding:"2vw",
+                    width:"100%",
+            }}>
+                <h1> Game Over </h1>
+                <div style={{
+                    display:"flex",
+                    flexDirection:"column",
+                    marginTop:"6vw"}}>
+                    <Button>Start Again</Button>
+                    <Button>Quit</Button>
+                </div>
+                </div>
+                </div>
+            )
+    }
 
     // useEffect(() => {
 
@@ -62,6 +111,10 @@ export default function Game({}) {
             if(data?.yourTurn === true) {
                 
                 isWaiting.current = false // puisqu'on vient de recevoir la réponse du serveur, on peut remettre la réponse à vrai
+            }
+
+            if (data == "LAST_GAME_WON" || data == "LAST_GAME_LOST") {
+
             }
         });
     }
@@ -150,6 +203,8 @@ export default function Game({}) {
         if(game_state?.yourTurn == true && isWaiting.current === false) {
 
             sendResponse(type, uid, targetUid)
+
+            setMessage(type)
         }
         else {
 
@@ -218,7 +273,7 @@ export default function Game({}) {
 
     return <>
 
-    <MainLayout>
+    {/* <MainLayout> */}
     <div style={{
 
         backgroundColor: "black",
@@ -229,8 +284,9 @@ export default function Game({}) {
         flexDirection:"row",
         justifyContent:"space-between",
         alignItems:"top",
-        minHeight:"10vh",
+        minHeight:"7vh",
         positon:"fixed",
+        padding:"1vw",
 
     }}>
     <div style={{display:"flex", flexDirection:"row", paddingLeft:"1vw"}}>
@@ -244,20 +300,38 @@ export default function Game({}) {
         <div style={{padding:"0.5vw"}}>{game_state?.opponent?.heroClass?? "heroClass" }</div>
         <div style={{padding:"0.5vw"}}>{game_state?.opponent?.welcomeText?? "Citation"}</div>
     </div>  
-    <div style={{display:"flex", flexDirection:"row", padding:"1vw"}}>
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
-        <div style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
+    <div style={{display:"flex", flexDirection:"row"}}>
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
+        <div style={{height:"3vw", width:"2vw", backgroundColor:"purple", border:"2px solid white", borderRadius:"10px", margin:"0.5vw" }}></div> 
         {
-            Array.from({lenght: game_state?.opponent?.handSize?? 0}).map((_,i) => 
-                <div key={i} style={{height:"5vw", width:"3.5vw", backgroundColor:"purple", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
+            Array.from({lenght: game_state?.opponent?.handSize?? 0}).map((card, index) => 
+                <div key={index} style={{height:"5vw", width:"3.5vw", backgroundColor:"#cc8899", border:"2px solid red", borderRadius:"10px", margin:"0.5vw" }}></div> 
             ) 
         }
     </div>   
+    </div>
+    <div style={{
+        display:"flex", 
+        justifyContent:"center", 
+        flexDirection:"column",
+        textAlign:"center",
+    }}>
+    <div style={{padding:"1vw"}}>Message: </div>
+        <div style={{ 
+            fontsize: "0.8rem", 
+            height:"120px",
+            width:"500px",
+            backgroundColor:"white",
+            fontFamily:"BBH Sans Bartle",
+            color:"black", 
+        }}>
+            { [message]?? "GameOn"}
+        </div>
     </div>
     <div style={{
         display:"flex", 
@@ -282,7 +356,7 @@ export default function Game({}) {
         backgroundPosition: "bottom-center", 
         overflow: "hidden",
         display: "flex",
-        flexDirection: "column",
+        // flexDirection: "column",
         width:"100%",   
         }}>
 
@@ -303,23 +377,23 @@ export default function Game({}) {
                 padding:"1vw",
 
         }}>
-            {/* <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte> */}
-        {
-            game_state?.opponent?.board?.map(card => {
+            <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+        {/* {
+            game_state?.opponent?.board?.map((card, index) => {
 
                 return (
-                    <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="blue" onClick={() => handleOpponent_card(card.uid)}>
+                    <Carte key={index} minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={null} color="blue" onClick={() => handleOpponent_card(card.uid)}>
                     </Carte>
                 )
             })
                 
-        }
+        } */}
         </div>
         <div style={{
 
@@ -341,7 +415,7 @@ export default function Game({}) {
                 borderRadius:"12px",
             }}></div>
             <div style={{position:"relative", zIndex:"2"}}> */}
-                <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                {/* <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte> */}
             {/* </div> */}
             {/* </div> */}
             
@@ -351,16 +425,69 @@ export default function Game({}) {
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
             <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="23%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-        {
-            game_state.board?.map(card => {
+        {/* {
+            game_state.board?.map((card, index) => {
+
+                card.mechanics.map((ele, index) => {
+                    if (ele === "Taunt") {
+                        isTaunt.current = true
+                        console.log("isTaunt")
+                        colorCard = colorTaunt
+                    
+                    }
+                    if (ele === "Charge") {
+                        canCharge.current = true
+                        console.log("canCharge")
+                        colorCard = colorCharge
+                    }
+                })
+
 
                 return (
-                    <Carte minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color="yellow" onClick={() => handleAttack_card(card.uid)}>
+
+                    
+                    <Carte key={index} minHeight="280px" width="180px" textSize="0.4rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} color={colorCard} onClick={() => handleAttack_card(card.uid)}>
                     </Carte>
                 )
-            })
-            
-        }    
+            }) 
+        }
+             */}
+          
+        </div>
+        </div>
+        <div className="Game Over" style={{
+            display:"flex",
+            backgroundColor:"black", 
+            height:"500px",
+            width:"700px",
+            color:"white", 
+            zIndex:"10",
+            justifyContent:"center", 
+            fontFamily:"BBH Sans Bartle",
+            textAlign:"center", 
+            position:"fixed",
+            top:"50%", 
+            left:"50%",
+            transform:"translateX(-50%) translateY(-50%)",
+
+        }}>
+        <div style={{
+                backgroundColor : "black",
+                border:"solid 1px #ff1493",
+                color: "white",
+                margin:"2vw",
+                padding:"2vw",
+                width:"100%",
+        }}>
+            <h1> Game Over </h1>
+            <div style={{
+                display:"flex",
+                flexDirection:"column",
+                marginTop:"6vw"}}>
+                <Button>Start Again</Button>
+                <Button>Quit</Button>
+            </div>
+          
         </div>
         </div>
         <div style={{
@@ -377,6 +504,7 @@ export default function Game({}) {
             position:"fixed",
             bottom:"0",
             overflow:"hidden",
+           
             
         }}>
             <div style={{
@@ -386,17 +514,6 @@ export default function Game({}) {
             }}>
                 <div style={{padding:"1vw"}}>HP: {game_state?.hp?? "0"}</div>
                 <div style={{padding:"1vw"}}>MP: {game_state?.mp?? "0"}</div>
-                <div style={{padding:"1vw"}}>Message: </div>
-                <div style={{ 
-                    fontsize: "0.8rem", 
-                    height:"100px",
-                    width:"180px",
-                    backgroundColor:"white",
-                    fontFamily:"BBH Sans Bartle",
-                    color:"black", 
-                }}>
-                    { [message]?? "GameOn"}
-                </div>
             </div>
             <div style={{
                 display: "flex",
@@ -405,24 +522,36 @@ export default function Game({}) {
                 // placeItems:"center",
                 width:"90%",
             }}>
-                {/* <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
-                <Carte minHeight="230px" width="130px" textSize="0.4rem" infoDim="20%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte> */}
-            {
-                game_state.hand?.map(card => {
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={2} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={5} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={12} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={24} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={56} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={67} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+                <Carte minHeight="180px" width="100px" textSize="0.1rem" infoDim="20%" cardUid={40} cardCost={3} cardMechanics={"assault"} cardHp={1} cardAtk={1}></Carte>
+            {/* {
+                game_state.hand?.map((card, index) => {
+
+                    card.mechanics.map((ele, index) => {
+                    if (ele === "taunt") {
+                        isTaunt.current = true
+                        console.log("isTaunt")
+                    
+                    }
+                    if (ele === "charge") {
+                        canCharge.current = true
+                        console.log("canCharge")
+                    }
+                })
 
                       return (
-                    <Carte minHeight="230px" width="130px" textSize="0.3rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} cardHp={card.hp} cardAtk={card.atk} onClick={() => handlePlay_card(card.uid)}>
+                    <Carte key={index} minHeight="230px" width="130px" textSize="0.3rem" infoDim="25%" cardUid={card.uid} cardCost={card.cost} cardMechanics={card.mechanics} cardHp={card.hp} cardAtk={card.atk} color={colorCard} onClick={() => handlePlay_card(card.uid)}>
                     </Carte>
         
                 )
 
                 })
-            }
+            } */}
             
             </div>
             <div style={{
@@ -434,7 +563,7 @@ export default function Game({}) {
                 justifyContent:"space-between",
             }}>
                 <Button onClick={()=> verifyResponse("SURRENDER")}>Surrender</Button>
-                <Button onClick={()=> verifyResponse("HERO_POWER")}>Hero Power</Button> 
+                <Button onClick={()=> verifyResponse("HERO_POWER")} color={heroColor}>Hero Power</Button> 
                 <Button style={{fonColor:"red"}} onClick={()=> verifyResponse("END_TURN")}>
                 {
                     game_state?.yourTurn === true? "End Turn":"Wait Turn"
@@ -444,8 +573,8 @@ export default function Game({}) {
         </div>
 
     </div>
-    
-    </MainLayout>
+{/*     
+    </MainLayout> */}
     </>
 
 }

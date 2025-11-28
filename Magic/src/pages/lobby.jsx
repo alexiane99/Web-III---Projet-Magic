@@ -7,6 +7,7 @@ import ChatBox from "../components/chatBox";
 import AutoplayVideo from "../components/autoplayVideo";
 import video from "../assets/NCTU_Teaser_TAEYONG.mp4"; 
 import Carousel from "../components/carousel";
+import { startGame } from "../components/functions/startGame";
 
 
 export default function Lobby({}) {
@@ -44,7 +45,7 @@ export default function Lobby({}) {
 
     const setGameplayMode = (mode) => {
 
-        setGameMode(mode)
+        //setGameMode(mode)
 
         console.log(gameMode.mode)
 
@@ -60,7 +61,11 @@ export default function Lobby({}) {
 
             console.log(data) 
 
-            //window.location.href = "/game"
+            if(data == "JOINED_PVP" || data == "JOINED_TRAINING") {
+
+            window.location.href = "/game"
+
+        }
         })
     } 
 

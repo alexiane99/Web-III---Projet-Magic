@@ -33,11 +33,11 @@ export default function Cards({}) {
 
         }}>
         { 
-            cards?.map(card => {
+            cards?.map((card, index) => {
 
                 return (
 
-                    <Carte minHeight="300px" width="200px" textSize="0.5rem" infoDim="20%" cardUid={card.id} cardHp={card.hp} cardAtk={card.atk} cardCost={card.cost} cardMechanics={card.mechanics}>
+                    <Carte key={index} minHeight="300px" width="200px" textSize="0.5rem" infoDim="20%" cardUid={card.id} cardHp={card.hp} cardAtk={card.atk} cardCost={card.cost} cardMechanics={card.mechanics}>
                     </Carte>
 
                 )

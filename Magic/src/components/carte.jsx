@@ -30,7 +30,7 @@ export default function Carte({minHeight, width, children, cardUid, cardHp, card
         margin: "1vw",
         display:"flex", 
         flexDirection:"column-reverse",
-        border: `3px solid ${color}`,
+        border: `4px solid ${color}`,
         backgroundSize:"cover", 
         borderRadius:"10px",
         fontFamily:"BBH Sans Bartle",
@@ -53,6 +53,7 @@ export default function Carte({minHeight, width, children, cardUid, cardHp, card
         alignItems:"end",
         backgroundColor:"black", 
         height:infoDim,
+        position:"relative"
      }}>
         <div style={{
             border:"solid 1px cyan",

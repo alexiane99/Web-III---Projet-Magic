@@ -50,7 +50,7 @@ export default function Deck({}) {
     }}>
            <iframe width={1200} height={1200} src={`https://magix.apps-de-cours.com/server/deck/${key}`}></iframe>
 
-           <div style={{
+           {/* <div style={{
                 margin: "2vw",
                 padding: "2,5vw",
                 fontFamily : "BBH Sans Bartle", 
@@ -58,7 +58,7 @@ export default function Deck({}) {
            }}>
                 <Button onClick={()=>startGame("TRAINING")}>Start Game</Button>
 
-           </div>
+           </div> */}
 
     </div>
     </MainLayout>

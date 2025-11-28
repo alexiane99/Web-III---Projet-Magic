@@ -1,11 +1,19 @@
 
-export function startGame() {
+export function startGame({type}) {
 
     let formData = new FormData()
 
+    if(type === "PVP") {
+        type = "PVP"
+    }
+    
+    if(type === "TRAINING") {
+        type = "TRAINING"
+    }
+
     //harcode, à vérifier
-    formData.append("type", "TRAINING")
-    formData.append("mode", "STANDARD")
+    formData.append("type", type)
+    // formData.append("mode", "STANDARD")
 
     fetch("/api/gamemode.php", {
         method:"POST",

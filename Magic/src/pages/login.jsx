@@ -102,10 +102,9 @@ export default function Login({}) {
               }}> 
               <div style={{
 
-                display: "flex",
-                heigth:"100vh",
+                display:"flex",
+                heigth:"80vh",
                 justifyContent: "center",
-                alignItems:"flex-start",
                
               }}>
                 <div style={{backgroundColor:"black",
