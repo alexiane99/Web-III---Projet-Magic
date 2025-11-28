@@ -49,7 +49,7 @@ export default function Game({}) {
 
     const [message, setMessage] = useState("")
 
-    const showEndGame = (title) => {
+    const showEndGame = () => {
 
         if (gameEnd.current === true) {
 
@@ -92,6 +92,11 @@ export default function Game({}) {
                     
                     </div>
                     </div>
+            )
+        }
+        else {
+            return (
+                null
             )
         }
 
@@ -604,15 +609,9 @@ export default function Game({}) {
             }
             </div>
             { 
-                gameEnd.current === true?  
-
-                    showEndGame(endTitle.surrender)
+              
+                showEndGame
                     
-                :
-
-                gameEnd.current = false 
-
-  
             }
             <div style={{
                 display:"flex",
